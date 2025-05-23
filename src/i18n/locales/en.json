@@ -1,0 +1,81 @@
+{
+  "common": {
+    "search": "Search",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign in",
+    "invalidCredentials": "Invalid email or password"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "stats": {
+      "roomsBooked": "Rooms Booked",
+      "totalGuests": "Total Guests",
+      "todayRevenue": "Today's Revenue",
+      "pendingPayments": "Pending Payments"
+    },
+    "charts": {
+      "revenue": "Revenue",
+      "occupancy": "Room Occupancy"
+    },
+    "recentReservations": "Recent Reservations"
+  },
+  "guests": {
+    "title": "Guest Management",
+    "addNew": "Add New Guest",
+    "list": {
+      "id": "Guest ID",
+      "name": "Name",
+      "contact": "Contact",
+      "nationality": "Nationality",
+      "visits": "Visits",
+      "status": "Status",
+      "room": "Room"
+    },
+    "status": {
+      "checkedIn": "Checked In",
+      "checkedOut": "Checked Out",
+      "reserved": "Reserved"
+    }
+  },
+  "rooms": {
+    "title": "Room Management",
+    "addNew": "Add New Room",
+    "status": {
+      "available": "Available",
+      "occupied": "Occupied",
+      "reserved": "Reserved",
+      "cleaning": "Cleaning",
+      "maintenance": "Maintenance"
+    },
+    "types": {
+      "standard": "Standard",
+      "deluxe": "Deluxe",
+      "suite": "Suite",
+      "premium": "Premium"
+    }
+  },
+  "reservations": {
+    "title": "Reservations",
+    "new": "New Reservation",
+    "calendar": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month"
+    }
+  }
+}

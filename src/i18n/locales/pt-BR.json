@@ -1,0 +1,81 @@
+{
+  "common": {
+    "search": "Pesquisar",
+    "add": "Adicionar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso"
+  },
+  "auth": {
+    "login": "Entrar",
+    "logout": "Sair",
+    "email": "E-mail",
+    "password": "Senha",
+    "rememberMe": "Lembrar-me",
+    "forgotPassword": "Esqueceu a senha?",
+    "signIn": "Entrar",
+    "invalidCredentials": "E-mail ou senha inválidos"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "stats": {
+      "roomsBooked": "Quartos Reservados",
+      "totalGuests": "Total de Hóspedes",
+      "todayRevenue": "Receita do Dia",
+      "pendingPayments": "Pagamentos Pendentes"
+    },
+    "charts": {
+      "revenue": "Receita",
+      "occupancy": "Ocupação dos Quartos"
+    },
+    "recentReservations": "Reservas Recentes"
+  },
+  "guests": {
+    "title": "Gerenciamento de Hóspedes",
+    "addNew": "Adicionar Novo Hóspede",
+    "list": {
+      "id": "ID do Hóspede",
+      "name": "Nome",
+      "contact": "Contato",
+      "nationality": "Nacionalidade",
+      "visits": "Visitas",
+      "status": "Status",
+      "room": "Quarto"
+    },
+    "status": {
+      "checkedIn": "Check-in Realizado",
+      "checkedOut": "Check-out Realizado",
+      "reserved": "Reservado"
+    }
+  },
+  "rooms": {
+    "title": "Gerenciamento de Quartos",
+    "addNew": "Adicionar Novo Quarto",
+    "status": {
+      "available": "Disponível",
+      "occupied": "Ocupado",
+      "reserved": "Reservado",
+      "cleaning": "Limpeza",
+      "maintenance": "Manutenção"
+    },
+    "types": {
+      "standard": "Padrão",
+      "deluxe": "Luxo",
+      "suite": "Suíte",
+      "premium": "Premium"
+    }
+  },
+  "reservations": {
+    "title": "Reservas",
+    "new": "Nova Reserva",
+    "calendar": {
+      "day": "Dia",
+      "week": "Semana",
+      "month": "Mês"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "common": {
+    "search": "Buscar",
+    "add": "Agregar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signIn": "Ingresar",
+    "invalidCredentials": "Correo o contraseña inválidos"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "stats": {
+      "roomsBooked": "Habitaciones Reservadas",
+      "totalGuests": "Total de Huéspedes",
+      "todayRevenue": "Ingresos del Día",
+      "pendingPayments": "Pagos Pendientes"
+    },
+    "charts": {
+      "revenue": "Ingresos",
+      "occupancy": "Ocupación de Habitaciones"
+    },
+    "recentReservations": "Reservas Recientes"
+  },
+  "guests": {
+    "title": "Gestión de Huéspedes",
+    "addNew": "Agregar Nuevo Huésped",
+    "list": {
+      "id": "ID del Huésped",
+      "name": "Nombre",
+      "contact": "Contacto",
+      "nationality": "Nacionalidad",
+      "visits": "Visitas",
+      "status": "Estado",
+      "room": "Habitación"
+    },
+    "status": {
+      "checkedIn": "Registrado",
+      "checkedOut": "Retirado",
+      "reserved": "Reservado"
+    }
+  },
+  "rooms": {
+    "title": "Gestión de Habitaciones",
+    "addNew": "Agregar Nueva Habitación",
+    "status": {
+      "available": "Disponible",
+      "occupied": "Ocupada",
+      "reserved": "Reservada",
+      "cleaning": "Limpieza",
+      "maintenance": "Mantenimiento"
+    },
+    "types": {
+      "standard": "Estándar",
+      "deluxe": "De Lujo",
+      "suite": "Suite",
+      "premium": "Premium"
+    }
+  },
+  "reservations": {
+    "title": "Reservas",
+    "new": "Nueva Reserva",
+    "calendar": {
+      "day": "Día",
+      "week": "Semana",
+      "month": "Mes"
+    }
+  }
+}
