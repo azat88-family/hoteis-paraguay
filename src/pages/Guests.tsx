@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Search, Filter, UserX } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Mock data for guests
 const guestsData = [
@@ -97,6 +98,7 @@ const guestsData = [
 const Guests: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const { t } = useTranslation();
 
   // Filter guests based on search query and status filter
   const filteredGuests = guestsData.filter(guest => {
@@ -122,13 +124,20 @@ const Guests: React.FC = () => {
     'Checked Out': guestsData.filter(guest => guest.status === 'Checked Out').length,
   };
 
+  // Tradução dos status para exibir nos botões e badges
+  const statusLabels = {
+    'Checked In': t('guests.status.checkedIn'),
+    'Reserved': t('guests.status.reserved'),
+    'Checked Out': t('guests.status.checkedOut'),
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-        <h1 className="text-3xl font-bold text-white">Guest Management</h1>
+        <h1 className="text-3xl font-bold text-white">{t('guests.title')}</h1>
         <Link to="/guests/new" className="btn-primary flex items-center justify-center">
           <Plus size={18} className="mr-2" />
-          Add New Guest
+          {t('guests.addNew')}
         </Link>
       </div>
 
@@ -139,7 +148,7 @@ const Guests: React.FC = () => {
             statusFilter === 'all' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          All ({guestCounts.all})
+          {t('common.all', 'All')} ({guestCounts.all})
         </button>
         <button 
           onClick={() => setStatusFilter('Checked In')}
@@ -147,7 +156,7 @@ const Guests: React.FC = () => {
             statusFilter === 'Checked In' ? 'bg-green-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Checked In ({guestCounts['Checked In']})
+          {statusLabels['Checked In']} ({guestCounts['Checked In']})
         </button>
         <button 
           onClick={() => setStatusFilter('Reserved')}
@@ -155,7 +164,7 @@ const Guests: React.FC = () => {
             statusFilter === 'Reserved' ? 'bg-yellow-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Reserved ({guestCounts['Reserved']})
+          {statusLabels['Reserved']} ({guestCounts['Reserved']})
         </button>
         <button 
           onClick={() => setStatusFilter('Checked Out')}
@@ -163,7 +172,7 @@ const Guests: React.FC = () => {
             statusFilter === 'Checked Out' ? 'bg-slate-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Checked Out ({guestCounts['Checked Out']})
+          {statusLabels['Checked Out']} ({guestCounts['Checked Out']})
         </button>
       </div>
 
@@ -172,7 +181,7 @@ const Guests: React.FC = () => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Search by ID, name, email, phone, or room..."
+            placeholder={t('common.search', 'Search by ID, name, email, phone, or room...')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5"
@@ -183,7 +192,7 @@ const Guests: React.FC = () => {
           <div className="relative">
             <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
             <select className="pl-10 pr-8 py-2.5 appearance-none">
-              <option>All Countries</option>
+              <option>{t('common.all', 'All Countries')}</option>
               <option>USA</option>
               <option>UK</option>
               <option>Canada</option>
@@ -199,9 +208,9 @@ const Guests: React.FC = () => {
           <div className="text-slate-400 mb-4">
             <UserX size={48} />
           </div>
-          <h3 className="text-xl font-medium mb-2">No Guests Found</h3>
+          <h3 className="text-xl font-medium mb-2">{t('guests.noGuestsFound', 'No Guests Found')}</h3>
           <p className="text-slate-400 text-center max-w-md">
-            No guests match your current search criteria. Try adjusting your filters or search query.
+            {t('guests.noGuestsMatch', 'No guests match your current search criteria. Try adjusting your filters or search query.')}
           </p>
         </div>
       ) : (
@@ -210,14 +219,14 @@ const Guests: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-slate-700 text-left">
-                  <th className="p-4 font-medium text-slate-300">Guest ID</th>
-                  <th className="p-4 font-medium text-slate-300">Name</th>
-                  <th className="p-4 font-medium text-slate-300">Contact</th>
-                  <th className="p-4 font-medium text-slate-300">Nationality</th>
-                  <th className="p-4 font-medium text-slate-300">Visits</th>
-                  <th className="p-4 font-medium text-slate-300">Status</th>
-                  <th className="p-4 font-medium text-slate-300">Room</th>
-                  <th className="p-4 font-medium text-slate-300">Actions</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.id')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.name')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.contact')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.nationality')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.visits')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.status')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.room')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('common.actions', 'Actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -241,9 +250,13 @@ const Guests: React.FC = () => {
                     <td className="p-4">{guest.nationality}</td>
                     <td className="p-4">
                       <div className="flex flex-col">
-                        <span>{guest.visits} {guest.visits === 1 ? 'visit' : 'visits'}</span>
+                        <span>
+                          {guest.visits} {guest.visits === 1 ? t('guests.list.visit', 'visit') : t('guests.list.visits')}
+                        </span>
                         {guest.lastVisit && (
-                          <span className="text-slate-400 text-sm">Last: {guest.lastVisit}</span>
+                          <span className="text-slate-400 text-sm">
+                            {t('guests.lastVisit', 'Last')}: {guest.lastVisit}
+                          </span>
                         )}
                       </div>
                     </td>
@@ -255,7 +268,7 @@ const Guests: React.FC = () => {
                           ? 'bg-yellow-500 bg-opacity-10 text-yellow-500' 
                           : 'bg-slate-500 bg-opacity-10 text-slate-400'
                       }`}>
-                        {guest.status}
+                        {statusLabels[guest.status as keyof typeof statusLabels] || guest.status}
                       </span>
                     </td>
                     <td className="p-4">
@@ -272,7 +285,7 @@ const Guests: React.FC = () => {
                         to={`/guests/${guest.id}`}
                         className="text-sm bg-slate-700 hover:bg-slate-600 text-white px-3 py-1 rounded-md transition-colors"
                       >
-                        View
+                        {t('common.view', 'View')}
                       </Link>
                     </td>
                   </tr>
