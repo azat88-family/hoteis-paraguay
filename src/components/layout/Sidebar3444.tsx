@@ -1,7 +1,9 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+// Added DollarSign for financials
 import { LayoutDashboard, Users, Hotel, Calendar, LogOut, DollarSign } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CurrencyRates from './CurrencyRates';
 
@@ -15,25 +17,26 @@ const Sidebar: React.FC = () => {
     navigate('/login');
   };
 
+  const getDashboardPath = () => {
+    if (user?.role === 'admin') return '/admin-dashboard';
+    if (user?.role === 'owner') return '/dashboard';
+    if (user?.role === 'attendant') return '/attendant-dashboard';
+    return '/dashboard';
+  };
+
   return (
     <aside className="bg-slate-800 w-64 h-full flex flex-col border-r border-slate-700">
       <div className="flex items-center justify-center h-16 border-b border-slate-700">
         <div className="flex items-center space-x-2">
+          {/* Changed icon color for owner theme consistency if owner, otherwise default blue */}
           <Hotel className={`h-6 w-6 ${user?.role === 'owner' ? 'text-amber-500' : 'text-blue-500'}`} />
           <h1 className="text-xl font-bold tracking-wider text-white">HOTEL PORTAL</h1>
         </div>
       </div>
       
       <nav className="flex-1 px-2 py-4 space-y-1">
-        {/* Dashboard principal para admin/attendant/owner */}
         <NavLink
-          to={
-            user?.role === 'admin'
-              ? '/admin-dashboard'
-              : user?.role === 'attendant'
-              ? '/attendant-dashboard'
-              : '/portal'
-          }
+          to={getDashboardPath()}
           className={({ isActive }) =>
             `flex items-center px-4 py-3 rounded-md transition-colors ${
               isActive ? 'bg-slate-700 text-white' : 'text-slate-300 hover:bg-slate-700 hover:text-white'
@@ -41,10 +44,10 @@ const Sidebar: React.FC = () => {
           }
         >
           <LayoutDashboard className="h-5 w-5 mr-3" />
-          <span>{t('dashboard.title', 'Painel')}</span>
+          <span>{t('dashboard.title')}</span>
         </NavLink>
 
-        {/* Admin e Owner: Gerenciar Hóspedes */}
+        {/* Admin and Owner specific links */}
         {(user?.role === 'admin' || user?.role === 'owner') && (
           <NavLink
             to="/guests"
@@ -55,11 +58,11 @@ const Sidebar: React.FC = () => {
             }
           >
             <Users className="h-5 w-5 mr-3" />
-            <span>{t('guests.title', 'Hóspedes')}</span>
+            <span>{t('guests.title')}</span>
           </NavLink>
         )}
-
-        {/* Admin, Owner e Attendant: Quartos e Reservas */}
+        
+        {/* Links for Admin, Owner, and Attendant */}
         {(user?.role === 'admin' || user?.role === 'owner' || user?.role === 'attendant') && (
           <>
             <NavLink
@@ -71,7 +74,7 @@ const Sidebar: React.FC = () => {
               }
             >
               <Hotel className="h-5 w-5 mr-3" />
-              <span>{t('rooms.title', 'Quartos')}</span>
+              <span>{t('rooms.title')}</span>
             </NavLink>
             
             <NavLink
@@ -83,15 +86,15 @@ const Sidebar: React.FC = () => {
               }
             >
               <Calendar className="h-5 w-5 mr-3" />
-              <span>{t('reservations.title', 'Reservas')}</span>
+              <span>{t('reservations.title')}</span>
             </NavLink>
           </>
         )}
 
-        {/* Panel: mostra apenas para owner e sempre vai para /dashboard */}
+        {/* Owner specific links */}
         {user?.role === 'owner' && (
           <NavLink
-            to="/dashboard"
+            to="/owner-dashboard"
             className={({ isActive }) =>
               `flex items-center px-4 py-3 rounded-md transition-colors ${
                 isActive ? 'bg-slate-700 text-white' : 'text-slate-300 hover:bg-slate-700 hover:text-white'
@@ -99,7 +102,7 @@ const Sidebar: React.FC = () => {
             }
           >
             <DollarSign className="h-5 w-5 mr-3" />
-            <span>Panel</span>
+            <span>{t('sidebar.financials')}</span>
           </NavLink>
         )}
       </nav>
@@ -112,7 +115,7 @@ const Sidebar: React.FC = () => {
             className="flex items-center w-full px-4 py-2 text-slate-300 rounded-md hover:bg-slate-700 hover:text-white transition-colors"
           >
             <LogOut className="h-5 w-5 mr-3" />
-            <span>{t('auth.logout', 'Sair')}</span>
+            <span>{t('auth.logout')}</span>
           </button>
         </div>
       </div>

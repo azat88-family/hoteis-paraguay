@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Edit, Printer, Upload, CreditCard, User, Mail, Phone, MapPin, Calendar, Bed, Clock, FileText } from 'lucide-react';
+import { ArrowLeft, Edit, Printer, Upload, CreditCard, User, Mail, Phone, MapPin, Calendar, Bed, FileText, Download } from 'lucide-react';
 
 // Mock data for a guest
 const guestData = {
@@ -84,14 +84,17 @@ const GuestDetails: React.FC = () => {
           <h1 className="text-3xl font-bold text-white">Guest Details</h1>
         </div>
         <div className="flex space-x-3">
-          <button className="btn-secondary flex items-center">
+          <button
+            onClick={() => window.print()}
+            className="btn-secondary flex items-center"
+          >
             <Printer size={16} className="mr-2" />
             Print
           </button>
-          <button className="btn-primary flex items-center">
+          <Link to={`/guests/${id}/edit`} className="btn-primary flex items-center">
             <Edit size={16} className="mr-2" />
             Edit
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -172,9 +175,12 @@ const GuestDetails: React.FC = () => {
                 </div>
               ))}
               
-              <button className="mt-4 w-full py-2 border border-slate-600 rounded-md text-sm font-medium hover:bg-slate-700 transition-colors">
+              <Link
+                to={`/guests/${id}/add-payment`}
+                className="mt-4 block w-full text-center py-2 border border-slate-600 rounded-md text-sm font-medium hover:bg-slate-700 transition-colors"
+              >
                 Add Payment Method
-              </button>
+              </Link>
             </div>
           </div>
           
@@ -194,17 +200,26 @@ const GuestDetails: React.FC = () => {
                         <p className="text-slate-400 text-xs">{doc.uploadDate} · {doc.size}</p>
                       </div>
                     </div>
-                    <button className="p-1.5 hover:bg-slate-600 rounded-md transition-colors">
-                      <Printer size={16} className="text-slate-400" />
-                    </button>
+                    <a
+                      href={`/documents/${doc.name}`} // Assuming documents are served from a public path
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 hover:bg-slate-600 rounded-md transition-colors"
+                      aria-label={`Download ${doc.name}`}
+                    >
+                      <Download size={16} className="text-slate-400" />
+                    </a>
                   </div>
                 ))}
               </div>
               
-              <button className="mt-4 w-full flex items-center justify-center py-2 border border-slate-600 rounded-md text-sm font-medium hover:bg-slate-700 transition-colors">
+              <Link
+                to={`/guests/${id}/upload-document`}
+                className="mt-4 w-full flex items-center justify-center py-2 border border-slate-600 rounded-md text-sm font-medium hover:bg-slate-700 transition-colors"
+              >
                 <Upload size={16} className="mr-2" />
                 Upload Document
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -267,8 +282,18 @@ const GuestDetails: React.FC = () => {
                 </div>
                 
                 <div className="mt-6 flex justify-between">
-                  <button className="btn-secondary py-2 px-4">Extend Stay</button>
-                  <button className="btn-primary py-2 px-4">Check Out</button>
+                  <Link
+                    to={`/guests/${id}/edit`}
+                    className="btn-secondary py-2 px-4"
+                  >
+                    Extend Stay
+                  </Link>
+                  <Link
+                    to={`/guests/${id}/check-out`}
+                    className="btn-primary py-2 px-4"
+                  >
+                    Check Out
+                  </Link>
                 </div>
               </div>
             ) : (
@@ -332,10 +357,13 @@ const GuestDetails: React.FC = () => {
             
             <div className="p-6">
               <p className="text-slate-300">{guestData.notes}</p>
-              <button className="mt-4 text-blue-500 hover:text-blue-400 transition-colors flex items-center">
+              <Link
+                to={`/guests/${id}/edit-notes`}
+                className="mt-4 text-blue-500 hover:text-blue-400 transition-colors flex items-center"
+              >
                 <Edit size={16} className="mr-1" />
                 Edit Notes
-              </button>
+              </Link>
             </div>
           </div>
         </div>

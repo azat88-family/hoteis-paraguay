@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Filter, Search } from 'lucide-react';
 import RoomCard from '../components/rooms/RoomCard';
+import { useTranslation } from 'react-i18next';
 
-// Mock data for rooms (adicione pelo menos um exemplo para evitar erros)
+// Mock data for rooms
 const roomsData = [
   {
     id: 101,
@@ -88,7 +89,7 @@ const roomsData = [
     beds: 'Twin',
     capacity: 2,
     price: 160,
-    status: 'Available',
+    status: 'available',
     guest: '',
     guestPhoto: '',
     checkIn: '',
@@ -101,21 +102,20 @@ const roomsData = [
     beds: 'Twin',
     capacity: 2,
     price: 160,
-    status: 'Available',
+    status: 'available',
     guest: '',
     guestPhoto: '',
     checkIn: '',
     checkOut: '',
     features: ['Wi-Fi', 'TV', 'AC', 'Minibar', 'Breakfast']
   }
-
-  // Adicione mais quartos se quiser
 ];
 
 const Rooms: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
+  const { t } = useTranslation();
 
   // Filter rooms based on search query and filters
   const filteredRooms = roomsData.filter(room => {
@@ -143,8 +143,7 @@ const Rooms: React.FC = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-        <h1 className="text-3xl font-bold text-white">Room Management</h1>
-        {/* Botão "+ Add New Room" removido */}
+        <h1 className="text-3xl font-bold text-white">{t('rooms.title')}</h1>
       </div>
 
       <div className="flex flex-wrap gap-3 bg-slate-800 rounded-lg p-4">
@@ -154,7 +153,7 @@ const Rooms: React.FC = () => {
             statusFilter === 'all' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          All ({roomCounts.all})
+          {t('rooms.all', 'All')} ({roomCounts.all})
         </button>
         <button
           onClick={() => setStatusFilter('available')}
@@ -162,7 +161,7 @@ const Rooms: React.FC = () => {
             statusFilter === 'available' ? 'bg-green-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Available ({roomCounts.available})
+          {t('rooms.status.available')} ({roomCounts.available})
         </button>
         <button
           onClick={() => setStatusFilter('occupied')}
@@ -170,7 +169,7 @@ const Rooms: React.FC = () => {
             statusFilter === 'occupied' ? 'bg-red-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Occupied ({roomCounts.occupied})
+          {t('rooms.status.occupied')} ({roomCounts.occupied})
         </button>
         <button
           onClick={() => setStatusFilter('reserved')}
@@ -178,7 +177,7 @@ const Rooms: React.FC = () => {
             statusFilter === 'reserved' ? 'bg-yellow-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Reserved ({roomCounts.reserved})
+          {t('rooms.status.reserved')} ({roomCounts.reserved})
         </button>
         <button
           onClick={() => setStatusFilter('cleaning')}
@@ -186,7 +185,7 @@ const Rooms: React.FC = () => {
             statusFilter === 'cleaning' ? 'bg-purple-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Cleaning ({roomCounts.cleaning})
+          {t('rooms.status.cleaning')} ({roomCounts.cleaning})
         </button>
         <button
           onClick={() => setStatusFilter('maintenance')}
@@ -194,7 +193,7 @@ const Rooms: React.FC = () => {
             statusFilter === 'maintenance' ? 'bg-gray-600 text-white' : 'text-slate-300 hover:bg-slate-700'
           }`}
         >
-          Maintenance ({roomCounts.maintenance})
+          {t('rooms.status.maintenance')} ({roomCounts.maintenance})
         </button>
       </div>
 
@@ -203,7 +202,7 @@ const Rooms: React.FC = () => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Search by room number, type, or guest name..."
+            placeholder={t('rooms.searchPlaceholder', 'Search by room number, type, or guest name...')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5"
@@ -218,11 +217,11 @@ const Rooms: React.FC = () => {
               onChange={(e) => setTypeFilter(e.target.value)}
               className="pl-10 pr-8 py-2.5 appearance-none"
             >
-              <option value="all">All Types</option>
-              <option value="Standard">Standard</option>
-              <option value="Deluxe">Deluxe</option>
-              <option value="Premium">Premium</option>
-              <option value="Suite">Suite</option>
+              <option value="all">{t('rooms.allTypes', 'All Types')}</option>
+              <option value="Standard">{t('rooms.types.standard')}</option>
+              <option value="Deluxe">{t('rooms.types.deluxe')}</option>
+              <option value="Premium">{t('rooms.types.premium')}</option>
+              <option value="Suite">{t('rooms.types.suite')}</option>
             </select>
           </div>
         </div>
@@ -233,9 +232,9 @@ const Rooms: React.FC = () => {
           <div className="text-slate-400 mb-4">
             <Search size={48} />
           </div>
-          <h3 className="text-xl font-medium mb-2">No Rooms Found</h3>
+          <h3 className="text-xl font-medium mb-2">{t('rooms.noRoomsFound', 'No Rooms Found')}</h3>
           <p className="text-slate-400 text-center max-w-md">
-            No rooms match your current search criteria. Try adjusting your filters or search query.
+            {t('rooms.noRoomsMatch', 'No rooms match your current search criteria. Try adjusting your filters or search query.')}
           </p>
         </div>
       ) : (

@@ -1,137 +1,91 @@
 {
-  "common": {
-    "actions": "Ações",
-    "view": "Ver",
-    "search": "Pesquisar",
-    "add": "Adicionar",
-    "edit": "Editar",
-    "delete": "Excluir",
-    "save": "Salvar",
-    "cancel": "Cancelar",
-    "loading": "Carregando...",
-    "error": "Erro",
-    "success": "Sucesso"
-  },
-  "auth": {
-    "login": "Entrar",
-    "logout": "Sair",
-    "email": "E-mail",
-    "password": "Senha",
-    "rememberMe": "Lembrar-me",
-    "forgotPassword": "Esqueceu a senha?",
-    "signIn": "Entrar",
-    "invalidCredentials": "E-mail ou senha inválidos"
-  },
-  "dashboard": {
-    "title": "Painel",
-    "stats": {
-      "roomsBooked": "Quartos Reservados",
-      "totalGuests": "Total de Hóspedes",
-      "todayRevenue": "Receita do Dia",
-      "pendingPayments": "Pagamentos Pendentes"
-    },
-    "charts": {
-      "revenue": "Receita",
-      "occupancy": "Ocupação dos Quartos"
-    },
-    "recentReservations": "Reservas Recentes"
-  },
-  "guests": {
-    "title": "Gerenciamento de Hóspedes",
-    "addNew": "Adicionar Novo Hóspede",
-    "photo": "Foto do Hóspede",
-    "photoHint": "Arraste e solte uma foto aqui ou clique para procurar",
-    "photoFormats": "JPG, PNG ou GIF, máximo 5MB",
-    "choosePhoto": "Escolher foto",
-    "documents": "Documentos",
-    "id": "Identificação",
-    "required": "Obrigatório",
-    "uploadIdHint": "Envie passaporte ou RG",
-    "uploadId": "Enviar documento",
-    "visa": "Visto (se aplicável)",
-    "optional": "Opcional",
-    "visaHint": "Para hóspedes internacionais",
-    "uploadVisa": "Enviar visto",
-    "personalInfo": "Informações Pessoais",
-    "firstName": "Nome",
-    "lastName": "Sobrenome",
-    "email": "E-mail",
-    "phone": "Telefone",
-    "birthDate": "Data de Nascimento",
-    "nationality": "Nacionalidade",
-    "selectCountry": "Selecione o país",
-    "country": {
-      "label": "País",
-      "us": "Estados Unidos",
-      "uk": "Reino Unido",
-      "br": "Brasil",
-      "ca": "Canadá",
-      "au": "Austrália",
-      "fr": "França",
-      "de": "Alemanha",
-      "jp": "Japão",
-      "other": "Outro"
-    },
-    "addressInfo": "Endereço",
-    "address": "Endereço",
-    "city": "Cidade",
-    "state": "Estado/Província",
-    "postalCode": "CEP",
-    "additionalInfo": "Informações Adicionais",
-    "idType": "Tipo de Documento",
-    "selectIdType": "Selecione o tipo de documento",
-    "passport": "Passaporte",
-    "driverLicense": "Carteira de Motorista",
-    "nationalId": "RG",
-    "other": "Outro",
-    "idNumber": "Número do Documento",
-    "idExpiry": "Validade do Documento",
-    "notes": "Observações",
-    "notesPlaceholder": "Insira solicitações especiais ou observações sobre o hóspede",
-    "saveGuest": "Salvar Hóspede",
-    "list": {
-      "id": "ID do Hóspede",
-      "name": "Nome",
-      "contact": "Contato",
-      "nationality": "Nacionalidade",
-      "visits": "Visitas",
-      "visit": "visita",
-      "status": "Status",
-      "room": "Quarto"
-    },
-    "status": {
-      "checkedIn": "Check-in Realizado",
-      "checkedOut": "Check-out Realizado",
-      "reserved": "Reservado"
-    },
-    "lastVisit": "Última visita",
-    "noGuestsFound": "Nenhum hóspede encontrado",
-    "noGuestsMatch": "Nenhum hóspede corresponde aos critérios de busca atuais. Tente ajustar seus filtros ou consulta."
-  },
   "rooms": {
-    "title": "Gerenciamento de Quartos",
-    "addNew": "Adicionar Novo Quarto",
     "status": {
       "available": "Disponível",
       "occupied": "Ocupado",
       "reserved": "Reservado",
-      "cleaning": "Limpeza",
-      "maintenance": "Manutenção"
+      "cleaning": "Em Limpeza",
+      "maintenance": "Em Manutenção",
+      "unknown": "Desconhecido"
     },
     "types": {
       "standard": "Padrão",
       "deluxe": "Luxo",
       "suite": "Suíte",
       "premium": "Premium"
-    }
+    },
+    "features": {
+      "wi-fi": "Wi-Fi",
+      "breakfast": "Café da manhã",
+      "tv": "TV",
+      "ac": "Ar-condicionado"
+    },
+    "bed": "Cama",
+    "guests": "Hóspedes",
+    "viewDetails": "Ver Detalhes",
+    "manage": "Gerenciar",
+    "night": "noite",
+    "more": "mais",
+    "title": "Quartos"
   },
   "reservations": {
     "title": "Reservas",
-    "new": "Nova Reserva",
-    "calendar": {
-      "day": "Dia",
-      "week": "Semana",
-      "month": "Mês"
+    "bookingModal": {
+      "title": "Nova Reserva",
+      "guestName": "Nome do Hóspede",
+      "guestNamePlaceholder": "Digite o nome do hóspede",
+      "email": "E-mail",
+      "emailPlaceholder": "Digite o endereço de e-mail",
+      "phone": "Telefone",
+      "phonePlaceholder": "Digite o número de telefone",
+      "roomNumber": "Número do Quarto",
+      "roomNumberPlaceholder": "Digite o número do quarto",
+      "checkIn": "Data de Check-in",
+      "checkOut": "Data de Check-out",
+      "amount": "Valor",
+      "amountPlaceholder": "Digite o valor",
+      "paymentMethod": "Método de Pagamento",
+      "paymentMethods": {
+        "creditCard": "Cartão de Crédito",
+        "debitCard": "Cartão de Débito",
+        "cash": "Dinheiro",
+        "bankTransfer": "Transferência Bancária"
+      },
+      "paymentStatus": "Status do Pagamento",
+      "paymentStatuses": {
+        "pending": "Pendente",
+        "paid": "Pago",
+        "partiallyPaid": "Parcialmente Pago"
+      },
+      "createBooking": "Criar Reserva"
     }
+  },
+  "guests": {
+    "details": "Detalhes do Hóspede",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out"
+  },
+  "actions": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "confirm": "Confirmar"
+  },
+  "messages": {
+    "success": "Operação realizada com sucesso!",
+    "error": "Ocorreu um erro, tente novamente."
+  },
+  "attendantDashboard": {
+    "title": "Painel do Atendente",
+    "welcomeMessage": "Bem-vindo ao painel do atendente. Aqui você pode gerenciar os dados dos quartos, visualizar o calendário mensal de locações, disponibilidades e manutenções.",
+    "roomManagement": "Gerenciamento de Quartos",
+    "roomStatusPlaceholder": "Lista de quartos, status (limpo, ocupado, manutenção), etc.",
+    "reservationsCalendar": "Calendário de Reservas",
+    "calendarPlaceholder": "Visualização do calendário com reservas, check-ins/outs, manutenções agendadas."
+  },
+  "sidebar": {
+    "financials": "Finanças"
   }
 }
+

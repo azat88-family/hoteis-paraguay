@@ -20,7 +20,8 @@ i18n
         translation: esPYTranslations
       }
     },
-    fallbackLng: 'en',
+    lng: 'es-PY', // Set default language
+    fallbackLng: 'es-PY',
     interpolation: {
       escapeValue: false
     }

@@ -48,19 +48,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     // In a real app, this would be an API call
     // For demo purposes, we'll just check if the credentials match
+    // In a real app, this would be an API call
+    let userData: User | null = null;
+
     if (email === 'admin@hotel.com' && password === 'password') {
-      const userData: User = {
+      userData = {
         id: '1',
         name: 'Admin User',
         email: 'admin@hotel.com',
         role: 'admin',
       };
-      
+    } else if (email === 'owner@hotel.com' && password === 'password') {
+      userData = {
+        id: '2',
+        name: 'Owner User',
+        email: 'owner@hotel.com',
+        role: 'owner',
+      };
+    } else if (email === 'attendant@hotel.com' && password === 'password') {
+      userData = {
+        id: '3',
+        name: 'Attendant User',
+        email: 'attendant@hotel.com',
+        role: 'attendant',
+      };
+    }
+    
+    if (userData) {
       setUser(userData);
       localStorage.setItem('hotelUser', JSON.stringify(userData));
       return true;
     }
-    
+
     return false;
   };
 

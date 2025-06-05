@@ -34,7 +34,7 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           textColor: 'text-green-500',
           bgColor: 'bg-green-500 bg-opacity-10',
           icon: <CheckSquare size={16} className="mr-1.5" />,
-          text: t('room.status.available', 'Available')
+          text: t('rooms.status.available')
         };
       case 'occupied':
         return {
@@ -42,7 +42,7 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           textColor: 'text-red-500',
           bgColor: 'bg-red-500 bg-opacity-10',
           icon: <XCircle size={16} className="mr-1.5" />,
-          text: t('room.status.occupied', 'Occupied')
+          text: t('rooms.status.occupied')
         };
       case 'reserved':
         return {
@@ -50,7 +50,7 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           textColor: 'text-yellow-500',
           bgColor: 'bg-yellow-500 bg-opacity-10',
           icon: <Calendar size={16} className="mr-1.5" />,
-          text: t('room.status.reserved', 'Reserved')
+          text: t('rooms.status.reserved')
         };
       case 'cleaning':
         return {
@@ -58,7 +58,7 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           textColor: 'text-purple-500',
           bgColor: 'bg-purple-500 bg-opacity-10',
           icon: <Clock size={16} className="mr-1.5" />,
-          text: t('room.status.cleaning', 'Cleaning')
+          text: t('rooms.status.cleaning')
         };
       case 'maintenance':
         return {
@@ -66,7 +66,7 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           textColor: 'text-gray-500',
           bgColor: 'bg-gray-500 bg-opacity-10',
           icon: <Tool size={16} className="mr-1.5" />,
-          text: t('room.status.maintenance', 'Maintenance')
+          text: t('rooms.status.maintenance')
         };
       default:
         return {
@@ -74,7 +74,7 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           textColor: 'text-blue-500',
           bgColor: 'bg-blue-500 bg-opacity-10',
           icon: <AlertCircle size={16} className="mr-1.5" />,
-          text: t('room.status.unknown', 'Unknown')
+          text: t('rooms.status.unknown')
         };
     }
   };
@@ -109,8 +109,8 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
             </div>
           </div>
           <div className="mb-2">
-            <h3 className="text-lg font-semibold">{room.type} {t('room.label.room', 'Room')}</h3>
-            <p className="text-slate-400">{room.beds} {t('room.label.bed', 'Bed')} · {room.capacity} {t('room.label.guests', 'Guests')}</p>
+            <h3 className="text-lg font-semibold">{t(`rooms.types.${room.type.toLowerCase()}`)} {t('rooms.title', 'Room')}</h3>
+            <p className="text-slate-400">{room.beds} {t('rooms.bed', 'Bed')} · {room.capacity} {t('rooms.guests', 'Guests')}</p>
           </div>
         </div>
         
@@ -149,35 +149,34 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
             {room.features.slice(0, 4).map((feature, index) => (
               <div key={index} className="flex items-center bg-slate-700 px-2 py-1 rounded text-xs">
                 {getFeatureIcon(feature)}
-                <span className="ml-1">{t(`room.feature.${feature.toLowerCase()}`, feature)}</span>
+                <span className="ml-1">{t(`rooms.features.${feature.toLowerCase()}`, feature)}</span>
               </div>
             ))}
             {room.features.length > 4 && (
               <div className="flex items-center bg-slate-700 px-2 py-1 rounded text-xs">
-                +{room.features.length - 4} {t('room.label.more', 'more')}
+                +{room.features.length - 4} {t('rooms.more', 'more')}
               </div>
             )}
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-lg font-bold">${room.price} <span className="text-sm text-slate-400 font-normal">/ {t('room.label.night', 'night')}</span></span>
+            <span className="text-lg font-bold">${room.price} <span className="text-sm text-slate-400 font-normal">/ {t('rooms.night', 'night')}</span></span>
             <div className="flex gap-2">
               <button
                 className="btn-primary py-1.5 px-3 text-sm"
                 onClick={() => {
-                  // Redireciona para a ficha do hóspede, idealmente usando guestId
                   if (room.guest) {
                     navigate(`/guests/${encodeURIComponent(room.guest)}`);
                   }
                 }}
               >
-                {t('room.button.viewDetails', 'View Details')}
+                {t('rooms.viewDetails', 'View Details')}
               </button>
               <button 
                 className="btn-secondary py-1.5 px-3 text-sm"
                 onClick={() => setIsManageModalOpen(true)}
               >
-                {t('room.button.manage', 'Manage')}
+                {t('rooms.manage', 'Manage')}
               </button>
             </div>
           </div>

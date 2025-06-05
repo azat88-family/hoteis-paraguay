@@ -60,8 +60,8 @@
     "birthDate": "Fecha de Nacimiento",
     "nationality": "Nacionalidad",
     "selectCountry": "Selecciona país",
-    "country": {
-      "label": "País",
+    "country": "País",
+    "countryList": {
       "us": "Estados Unidos",
       "uk": "Reino Unido",
       "br": "Brasil",
@@ -100,38 +100,135 @@
       "room": "Habitación"
     },
     "status": {
-      "checkedIn": "Registrado",
-      "checkedOut": "Retirado",
+      "checkedIn": "Registrarse",
+      "checkedOut": "Retirado-verificar",
       "reserved": "Reservado"
     },
     "lastVisit": "Última visita",
     "noGuestsFound": "No se encontraron huéspedes",
     "noGuestsMatch": "Ningún huésped coincide con tus criterios de búsqueda actuales. Intenta ajustar tus filtros o consulta."
   },
+  "room": {
+    "modal": {
+      "title": "Habitación {{id}}",
+      "subtitle": "{{type}} · {{beds}} cama(s)",
+      "tabs": {
+        "details": "Detalles",
+        "history": "Historial",
+        "maintenance": "Mantenimiento"
+      },
+      "info": "Información de la Habitación",
+      "roomType": "Tipo de Habitación",
+      "bedType": "Tipo de Cama",
+      "capacity": "Capacidad",
+      "guests": "Huéspedes",
+      "price": "Precio",
+      "night": "noche",
+      "features": "Características",
+      "currentGuest": "Huésped Actual",
+      "noGuest": "Ningún huésped registrado",
+      "newBooking": "Nueva Reserva",
+      "viewDetails": "Ver Detalles",
+      "checkOut": "Check-out",
+      "quickActions": "Acciones Rápidas",
+      "maintenance": "Mantenimiento",
+      "updatePrice": "Actualizar Precio",
+      "removeRoom": "Eliminar Habitación",
+      "bookingHistory": "Historial de Reservas",
+      "searchHistory": "Buscar historial...",
+      "guest": "Huésped",
+      "checkIn": "Entrada",
+      "checkOutShort": "Salida",
+      "nights": "Noches",
+      "total": "Total",
+      "status": "Estado",
+      "completed": "Completado",
+      "maintenanceLog": "Registro de Mantenimiento",
+      "addRecord": "Agregar Registro",
+      "regularCleaning": "Limpieza Regular",
+      "cleaningDesc": "Limpieza y desinfección estándar realizada.",
+      "acMaintenance": "Mantenimiento de Aire Acondicionado",
+      "acDesc": "Mantenimiento regular del aire acondicionado y cambio de filtro."
+    }
+  },
   "rooms": {
-    "title": "Gestión de Habitaciones",
-    "addNew": "Agregar Nueva Habitación",
     "status": {
       "available": "Disponible",
-      "occupied": "Ocupada",
-      "reserved": "Reservada",
-      "cleaning": "Limpieza",
-      "maintenance": "Mantenimiento"
+      "occupied": "Ocupado",
+      "reserved": "Reservado",
+      "cleaning": "En Limpieza",
+      "maintenance": "En Mantenimiento",
+      "unknown": "Desconocido"
     },
     "types": {
       "standard": "Estándar",
       "deluxe": "De Lujo",
       "suite": "Suite",
       "premium": "Premium"
-    }
+    },
+    "features": {
+      "wi-fi": "Wi-Fi",
+      "breakfast": "Desayuno",
+      "tv": "TV",
+      "ac": "Aire acondicionado",
+      "minibar": "Minibar",
+      "living area": "Sala de estar"
+    },
+    "bed": "Cama",
+    "guests": "Huéspedes",
+    "viewDetails": "Ver Detalles",
+    "manage": "Gestionar",
+    "night": "noche",
+    "more": "más",
+    "title": "Habitaciones"
   },
   "reservations": {
     "title": "Reservas",
     "new": "Nueva Reserva",
+"bookingModal": {
+      "title": "Nueva Reserva",
+      "guestName": "Nombre del Huésped",
+      "guestNamePlaceholder": "Ingrese el nombre del huésped",
+      "email": "Correo Electrónico",
+      "emailPlaceholder": "Ingrese la dirección de correo electrónico",
+      "phone": "Número de Teléfono",
+      "phonePlaceholder": "Ingrese el número de teléfono",
+      "roomNumber": "Número de Habitación",
+      "roomNumberPlaceholder": "Ingrese el número de habitación",
+      "checkIn": "Fecha de Entrada",
+      "checkOut": "Fecha de Salida",
+      "amount": "Monto",
+      "amountPlaceholder": "Ingrese el monto",
+      "paymentMethod": "Método de Pago",
+      "paymentMethods": {
+        "creditCard": "Tarjeta de Crédito",
+        "debitCard": "Tarjeta de Débito",
+        "cash": "Efectivo",
+        "bankTransfer": "Transferencia Bancaria"
+      },
+      "paymentStatus": "Estado del Pago",
+      "paymentStatuses": {
+        "pending": "Pendiente",
+        "paid": "Pagado",
+        "partiallyPaid": "Parcialmente Pagado"
+      },
+      "createBooking": "Crear Reserva"
+    },
     "calendar": {
       "day": "Día",
       "week": "Semana",
       "month": "Mes"
-    }
+      }
+    },
+    "attendantDashboard": {
+      "title": "Panel del Encargado",
+      "welcomeMessage": "Bienvenido al panel del encargado. Aquí puede gestionar los datos de las habitaciones, visualizar el calendario mensual de alquileres, disponibilidades y mantenimientos.",
+      "roomManagement": "Gestión de Habitaciones",
+      "roomStatusPlaceholder": "Lista de habitaciones, estado (limpia, ocupada, mantenimiento), etc.",
+      "reservationsCalendar": "Calendario de Reservas",
+      "calendarPlaceholder": "Visualización del calendario con reservas, check-ins/outs, mantenimientos programados."
+    },
+  "sidebar": {
+    "financials": "Finanzas"
   }
 }

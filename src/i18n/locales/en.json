@@ -109,29 +109,89 @@
     "noGuestsMatch": "No guests match your current search criteria. Try adjusting your filters or search query."
   },
   "rooms": {
-    "title": "Room Management",
+    "title": "Rooms",
     "addNew": "Add New Room",
+    "all": "All",
+    "allTypes": "All Types",
+    "searchPlaceholder": "Search by room number, type, or guest name...",
+    "noRoomsFound": "No Rooms Found",
+    "noRoomsMatch": "No rooms match your current search criteria. Try adjusting your filters or search query.",
     "status": {
       "available": "Available",
       "occupied": "Occupied",
       "reserved": "Reserved",
       "cleaning": "Cleaning",
-      "maintenance": "Maintenance"
+      "maintenance": "Maintenance",
+      "unknown": "Unknown"
     },
     "types": {
       "standard": "Standard",
       "deluxe": "Deluxe",
       "suite": "Suite",
       "premium": "Premium"
-    }
+    },
+    "features": {
+      "wi-fi": "Wi-Fi",
+      "breakfast": "Breakfast",
+      "tv": "TV",
+      "ac": "AC",
+      "minibar": "Minibar",
+      "living area": "Living Area"
+    },
+    "bed": "Bed",
+    "guests": "Guests",
+    "viewDetails": "View Details",
+    "manage": "Manage",
+    "night": "night",
+    "more": "more"
   },
   "reservations": {
     "title": "Reservations",
     "new": "New Reservation",
+"bookingModal": {
+      "title": "New Booking",
+      "guestName": "Guest Name",
+      "guestNamePlaceholder": "Enter guest name",
+      "email": "Email",
+      "emailPlaceholder": "Enter email address",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter phone number",
+      "roomNumber": "Room Number",
+      "roomNumberPlaceholder": "Enter room number",
+      "checkIn": "Check-in Date",
+      "checkOut": "Check-out Date",
+      "amount": "Amount",
+      "amountPlaceholder": "Enter amount",
+      "paymentMethod": "Payment Method",
+      "paymentMethods": {
+        "creditCard": "Credit Card",
+        "debitCard": "Debit Card",
+        "cash": "Cash",
+        "bankTransfer": "Bank Transfer"
+      },
+      "paymentStatus": "Payment Status",
+      "paymentStatuses": {
+        "pending": "Pending",
+        "paid": "Paid",
+        "partiallyPaid": "Partially Paid"
+      },
+      "createBooking": "Create Booking"
+    },
     "calendar": {
       "day": "Day",
       "week": "Week",
       "month": "Month"
     }
+  },
+  "attendantDashboard": {
+    "title": "Attendant Dashboard",
+    "welcomeMessage": "Welcome to the attendant dashboard. Here you can manage room data, view the monthly rental calendar, availability, and maintenance.",
+    "roomManagement": "Room Management",
+    "roomStatusPlaceholder": "List of rooms, status (clean, occupied, maintenance), etc.",
+    "reservationsCalendar": "Reservations Calendar",
+    "calendarPlaceholder": "Calendar view with reservations, check-ins/outs, scheduled maintenance."
+  },
+  "sidebar": {
+    "financials": "Financials"
   }
 }
