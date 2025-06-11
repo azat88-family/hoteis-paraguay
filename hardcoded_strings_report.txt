@@ -1,0 +1,37 @@
+Found hardcoded strings:
+- File: src/components/layout/CurrencyRates.tsx
+  String: "Brazil Flag"
+  String: "Paraguay Flag"
+  String: "USA Flag"
+  String: "Canada Flag"
+  String: "EU Flag"
+  String: "UK Flag"
+- File: src/pages/AdminDashboard.tsx
+  String: "Hotel Logo"
+- File: src/pages/NewGuest.tsx
+  String: "Guest"
+  String: "Other"
+- File: src/pages/PortalPage.tsx
+  String: "Hotel Logo"
+- File: src/pages/Register.tsx
+  String: "Digite o nome"
+  String: "Digite o documento"
+  String: "Digite o endereço"
+  String: "Digite o telefone"
+  String: "Digite o email"
+  String: "Digite a senha"
+  String: "Repita a senha"
+- File: src/pages/Reservations.tsx
+  String: "Search reservations..."
+- File: src/pages/Rooms.tsx
+  String: "Standard"
+  String: "Deluxe"
+  String: "Premium"
+  String: "Suite"
+
+Note: The detection of hardcoded strings is based on heuristics and may include false positives or miss some strings. The following strings were also flagged by the script but are likely not user-facing and have been excluded from the main list above:
+- src/components/layout/Layout.tsx: "location.pathname.startsWith(path));\n\n  return ("
+- src/components/rooms/RoomCard.tsx: ";\n      case 'breakfast':\n        return"
+- src/components/rooms/RoomCard.tsx: ";\n      case 'tv':\n        return"
+- src/components/rooms/RoomCard.tsx: ";\n      case 'ac':\n        return"
+- src/components/rooms/RoomCard.tsx: ";\n      default:\n        return"

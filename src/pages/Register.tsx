@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Register: React.FC = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [document, setDocument] = useState('');
   const [address, setAddress] = useState('');
@@ -81,7 +83,7 @@ const Register: React.FC = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Digite o nome"
+                placeholder={t('auth.register.placeholder.name')}
                 required
               />
             </div>
@@ -95,7 +97,7 @@ const Register: React.FC = () => {
                 value={document}
                 onChange={(e) => setDocument(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Digite o documento"
+                placeholder={t('auth.register.placeholder.document')}
                 required
               />
             </div>
@@ -114,7 +116,7 @@ const Register: React.FC = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Digite o endereço"
+                placeholder={t('auth.register.placeholder.address')}
                 required
               />
             </div>
@@ -128,7 +130,7 @@ const Register: React.FC = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Digite o telefone"
+                placeholder={t('auth.register.placeholder.phone')}
                 required
               />
             </div>
@@ -147,7 +149,7 @@ const Register: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Digite o email"
+                placeholder={t('auth.register.placeholder.email')}
                 required
               />
             </div>
@@ -161,7 +163,7 @@ const Register: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Digite a senha"
+                placeholder={t('auth.register.placeholder.password')}
                 required
               />
             </div>
@@ -175,7 +177,7 @@ const Register: React.FC = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full py-1 px-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-white text-sm"
-                placeholder="Repita a senha"
+                placeholder={t('auth.register.placeholder.confirmPassword')}
                 required
               />
             </div>

@@ -20,7 +20,18 @@
     "rememberMe": "Recordarme",
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "signIn": "Ingresar",
-    "invalidCredentials": "Correo o contraseña inválidos"
+    "invalidCredentials": "Correo o contraseña inválidos",
+    "register": {
+      "placeholder": {
+        "name": "Digite su nombre",
+        "document": "Digite su documento",
+        "address": "Digite su dirección",
+        "phone": "Digite su teléfono",
+        "email": "Digite su correo electrónico",
+        "password": "Digite su contraseña",
+        "confirmPassword": "Repita su contraseña"
+      }
+    }
   },
   "dashboard": {
     "title": "Panel",
@@ -106,7 +117,13 @@
     },
     "lastVisit": "Última visita",
     "noGuestsFound": "No se encontraron huéspedes",
-    "noGuestsMatch": "Ningún huésped coincide con tus criterios de búsqueda actuales. Intenta ajustar tus filtros o consulta."
+    "noGuestsMatch": "Ningún huésped coincide con tus criterios de búsqueda actuales. Intenta ajustar tus filtros o consulta.",
+    "field": {
+      "guestType": {
+        "guest": "Huésped",
+        "other": "Otro"
+      }
+    }
   },
   "room": {
     "modal": {
@@ -180,12 +197,18 @@
     "manage": "Gestionar",
     "night": "noche",
     "more": "más",
-    "title": "Habitaciones"
+    "title": "Habitaciones",
+    "addNew": "Agregar Nueva Habitación",
+    "all": "Todas",
+    "allTypes": "Todos los Tipos",
+    "searchPlaceholder": "Buscar por número de habitación, tipo o nombre de huésped...",
+    "noRoomsFound": "No se encontraron habitaciones",
+    "noRoomsMatch": "Ninguna habitación coincide con tus criterios de búsqueda actuales. Intenta ajustar tus filtros o consulta."
   },
   "reservations": {
     "title": "Reservas",
     "new": "Nueva Reserva",
-"bookingModal": {
+    "bookingModal": {
       "title": "Nueva Reserva",
       "guestName": "Nombre del Huésped",
       "guestNamePlaceholder": "Ingrese el nombre del huésped",
@@ -218,17 +241,31 @@
       "day": "Día",
       "week": "Semana",
       "month": "Mes"
-      }
     },
-    "attendantDashboard": {
-      "title": "Panel del Encargado",
-      "welcomeMessage": "Bienvenido al panel del encargado. Aquí puede gestionar los datos de las habitaciones, visualizar el calendario mensual de alquileres, disponibilidades y mantenimientos.",
-      "roomManagement": "Gestión de Habitaciones",
-      "roomStatusPlaceholder": "Lista de habitaciones, estado (limpia, ocupada, mantenimiento), etc.",
-      "reservationsCalendar": "Calendario de Reservas",
-      "calendarPlaceholder": "Visualización del calendario con reservas, check-ins/outs, mantenimientos programados."
-    },
+    "searchPlaceholder": "Buscar reservaciones..."
+  },
+  "attendantDashboard": {
+    "title": "Panel del Encargado",
+    "welcomeMessage": "Bienvenido al panel del encargado. Aquí puede gestionar los datos de las habitaciones, visualizar el calendario mensual de alquileres, disponibilidades y mantenimientos.",
+    "roomManagement": "Gestión de Habitaciones",
+    "roomStatusPlaceholder": "Lista de habitaciones, estado (limpia, ocupada, mantenimiento), etc.",
+    "reservationsCalendar": "Calendario de Reservas",
+    "calendarPlaceholder": "Visualización del calendario con reservas, check-ins/outs, mantenimientos programados."
+  },
   "sidebar": {
     "financials": "Finanzas"
+  },
+  "components": {
+    "currencyRates": {
+      "brazilFlagAlt": "Bandera de Brasil",
+      "paraguayFlagAlt": "Bandera de Paraguay",
+      "usaFlagAlt": "Bandera de EE.UU.",
+      "canadaFlagAlt": "Bandera de Canadá",
+      "euFlagAlt": "Bandera de la UE",
+      "ukFlagAlt": "Bandera del Reino Unido"
+    },
+    "layout": {
+      "hotelLogoAlt": "Logo del Hotel"
+    }
   }
 }

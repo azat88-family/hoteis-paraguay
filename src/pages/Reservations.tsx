@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Search, Plus } from 'lucide-react';
 import { format, addDays, startOfWeek, endOfWeek } from 'date-fns';
 import CalendarView from '../components/reservations/CalendarView';
+import { useTranslation } from 'react-i18next';
 
 const Reservations: React.FC = () => {
+  const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('week');
   const [searchQuery, setSearchQuery] = useState('');
@@ -87,7 +89,7 @@ const Reservations: React.FC = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search reservations..."
+                placeholder={t('reservations.searchPlaceholder', 'Search reservations...')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 text-sm bg-slate-700 border border-slate-600 rounded-md"
