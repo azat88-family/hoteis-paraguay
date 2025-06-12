@@ -237,7 +237,7 @@ const RoomManageModal: React.FC<RoomManageModalProps> = ({ isOpen, onClose, room
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">{t('room.modal.maintenanceLog')}</h3>
-                <button className="btn-primary py-1.5 px-3 text-sm">
+                <button onClick={handleMaintenanceClick} className="btn-primary py-1.5 px-3 text-sm">
                   {t('room.modal.addRecord')}
                 </button>
               </div>
