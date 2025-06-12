@@ -2,20 +2,23 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Placeholder for Hotel Header component - In a real app, this would be a shared component
-const HotelHeader = () => (
-  <div className="bg-gray-800 p-4 text-white mb-6 rounded">
-    <div className="container mx-auto flex justify-between items-center">
-      <div>
-        <img src="/public/hotel-icon.svg" alt="Hotel Logo" className="h-12 mr-3 inline" />
-        <span className="text-xl font-bold">Hotel Name</span>
-      </div>
-      <div>
+const HotelHeader = () => {
+  const { t } = useTranslation(); // Added t hook for the alt text
+  return (
+    <div className="bg-gray-800 p-4 text-white mb-6 rounded">
+      <div className="container mx-auto flex justify-between items-center">
+        <div>
+          <img src="/public/hotel-icon.svg" alt={t('components.layout.hotelLogoAlt')} className="h-12 mr-3 inline" />
+          <span className="text-xl font-bold">Hotel Name</span>
+        </div>
+        <div>
         <p className="text-sm">123 Main Street, City, Country</p>
         <p className="text-sm">Phone: (123) 456-7890 | Email: info@hotel.com</p>
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const AdminDashboard: React.FC = () => {
   const { t } = useTranslation();

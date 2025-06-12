@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Placeholder for Hotel Header component
-const HotelHeader = () => (
+const HotelHeader = () => {
+  const { t } = useTranslation(); // Added t hook for the alt text
+  return (
   <div className="bg-gray-800 p-4 text-white mb-6 rounded">
     <div className="container mx-auto flex justify-between items-center">
       <div>
-        <img src="/public/hotel-icon.svg" alt="Hotel Logo" className="h-12 mr-3 inline" />
+        <img src="/public/hotel-icon.svg" alt={t('components.layout.hotelLogoAlt')} className="h-12 mr-3 inline" />
         <span className="text-xl font-bold">Hotel Name</span>
       </div>
       <div>
@@ -16,7 +18,8 @@ const HotelHeader = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 interface CardProps {
   title: string;

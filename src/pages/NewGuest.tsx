@@ -70,7 +70,7 @@ const NewGuest: React.FC = () => {
               <div className="relative">
                 <img
                   src={selectedImage}
-                  alt="Guest"
+                  alt={t('guests.photo', 'Guest Photo')}
                   className="w-full h-64 object-cover rounded-lg"
                 />
                 <button

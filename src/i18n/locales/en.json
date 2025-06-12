@@ -148,7 +148,7 @@
   "reservations": {
     "title": "Reservations",
     "new": "New Reservation",
-"bookingModal": {
+    "bookingModal": {
       "title": "New Booking",
       "guestName": "Guest Name",
       "guestNamePlaceholder": "Enter guest name",
@@ -193,5 +193,47 @@
   },
   "sidebar": {
     "financials": "Financials"
+  },
+  "room": {
+    "modal": {
+      "title": "Room {{id}}",
+      "subtitle": "{{type}} · {{beds}} bed(s)",
+      "tabs": {
+        "details": "Details",
+        "history": "History",
+        "maintenance": "Maintenance"
+      },
+      "info": "Room Information",
+      "roomType": "Room Type",
+      "bedType": "Bed Type",
+      "capacity": "Capacity",
+      "guests": "Guests",
+      "price": "Price",
+      "night": "night",
+      "features": "Features",
+      "currentGuest": "Current Guest",
+      "noGuest": "No guest registered",
+      "newBooking": "New Booking",
+      "viewDetails": "View Details",
+      "checkOut": "Check-out",
+      "quickActions": "Quick Actions",
+      "updatePrice": "Update Price",
+      "removeRoom": "Remove Room",
+      "bookingHistory": "Booking History",
+      "searchHistory": "Search history...",
+      "guest": "Guest",
+      "checkIn": "Check-In",
+      "checkOutShort": "Check-Out",
+      "nights": "Nights",
+      "total": "Total",
+      "status": "Status",
+      "completed": "Completed",
+      "maintenanceLog": "Maintenance Log",
+      "addRecord": "Add Record",
+      "regularCleaning": "Regular Cleaning",
+      "cleaningDesc": "Standard room cleaning and sanitization performed.",
+      "acMaintenance": "AC Maintenance",
+      "acDesc": "Regular AC maintenance and filter replacement."
+    }
   }
 }
