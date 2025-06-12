@@ -2,34 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { getExchangeRates } from '../../services/currencyService';
 import { useTranslation } from 'react-i18next';
 
-// Mock flag components - replace with actual flag icons or images
-const FlagBR = () => {
-  const { t } = useTranslation();
-  return <span role="img" aria-label={t('components.currencyRates.brazilFlagAlt')}>🇧🇷</span>;
-};
-const FlagPY = () => {
-  const { t } = useTranslation();
-  return <span role="img" aria-label={t('components.currencyRates.paraguayFlagAlt')}>🇵🇾</span>;
-};
-const FlagUS = () => {
-  const { t } = useTranslation();
-  return <span role="img" aria-label={t('components.currencyRates.usaFlagAlt')}>🇺🇸</span>;
-};
-const FlagCA = () => {
-  const { t } = useTranslation();
-  return <span role="img" aria-label={t('components.currencyRates.canadaFlagAlt')}>🇨🇦</span>;
-};
-const FlagEU = () => {
-  const { t } = useTranslation();
-  return <span role="img" aria-label={t('components.currencyRates.euFlagAlt')}>🇪🇺</span>;
-};
-const FlagGB = () => {
-  const { t } = useTranslation();
-  return <span role="img" aria-label={t('components.currencyRates.ukFlagAlt')}>🇬🇧</span>;
+interface FlagIconProps {
+  countryCode: string;
+  altText: string;
+}
+
+const FlagIcon: React.FC<FlagIconProps> = ({ countryCode, altText }) => {
+  return (
+    <img
+      src={`https://flagcdn.com/${countryCode}.svg`}
+      alt={altText}
+      width="20"
+      className="inline mr-2" // Added inline styling for consistency
+    />
+  );
 };
 
 const CurrencyRates: React.FC = () => {
-  const { t } = useTranslation(); // Added for the title, though not strictly in the report for this component
+  const { t } = useTranslation();
   const [rates, setRates] = useState({
     USD: 1,
     PYG: 0,
@@ -69,42 +59,42 @@ const CurrencyRates: React.FC = () => {
       <ul className="space-y-2 text-sm">
         <li className="flex items-center justify-between">
           <div className="flex items-center">
-            <FlagUS />
+            <FlagIcon countryCode="us" altText={t('components.currencyRates.usaFlagAlt')} />
             <span className="ml-2">USD</span>
           </div>
           <span>{formatRate(rates.USD)}</span>
         </li>
         <li className="flex items-center justify-between">
           <div className="flex items-center">
-            <FlagPY />
+            <FlagIcon countryCode="py" altText={t('components.currencyRates.paraguayFlagAlt')} />
             <span className="ml-2">PYG</span>
           </div>
           <span>{formatRate(rates.PYG)}</span>
         </li>
         <li className="flex items-center justify-between">
           <div className="flex items-center">
-            <FlagBR />
+            <FlagIcon countryCode="br" altText={t('components.currencyRates.brazilFlagAlt')} />
             <span className="ml-2">BRL</span>
           </div>
           <span>{formatRate(rates.BRL)}</span>
         </li>
         <li className="flex items-center justify-between">
           <div className="flex items-center">
-            <FlagCA />
+            <FlagIcon countryCode="ca" altText={t('components.currencyRates.canadaFlagAlt')} />
             <span className="ml-2">CAD</span>
           </div>
           <span>{formatRate(rates.CAD)}</span>
         </li>
         <li className="flex items-center justify-between">
           <div className="flex items-center">
-            <FlagEU />
+            <FlagIcon countryCode="eu" altText={t('components.currencyRates.euFlagAlt')} />
             <span className="ml-2">EUR</span>
           </div>
           <span>{formatRate(rates.EUR)}</span>
         </li>
         <li className="flex items-center justify-between">
           <div className="flex items-center">
-            <FlagGB />
+            <FlagIcon countryCode="gb" altText={t('components.currencyRates.ukFlagAlt')} />
             <span className="ml-2">GBP</span>
           </div>
           <span>{formatRate(rates.GBP)}</span>
