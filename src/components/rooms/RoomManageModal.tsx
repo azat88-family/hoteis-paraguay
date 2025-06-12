@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Search, User, Calendar, DollarSign, Settings, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface RoomManageModalProps {
   isOpen: boolean;
@@ -23,8 +24,14 @@ const RoomManageModal: React.FC<RoomManageModalProps> = ({ isOpen, onClose, room
   const [activeTab, setActiveTab] = useState('details');
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
+
+  const handleNewBookingClick = () => {
+    navigate('/guests/new');
+    onClose(); // Close the modal
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -141,7 +148,7 @@ const RoomManageModal: React.FC<RoomManageModalProps> = ({ isOpen, onClose, room
                     <div className="text-center py-8 bg-slate-700 rounded-lg">
                       <User size={32} className="mx-auto text-slate-400 mb-2" />
                       <p className="text-slate-400">{t('room.modal.noGuest')}</p>
-                      <button className="btn-primary mt-4 py-1.5 px-4 text-sm">
+                      <button onClick={handleNewBookingClick} className="btn-primary mt-4 py-1.5 px-4 text-sm">
                         {t('room.modal.newBooking')}
                       </button>
                     </div>
@@ -152,7 +159,7 @@ const RoomManageModal: React.FC<RoomManageModalProps> = ({ isOpen, onClose, room
               <div className="border-t border-slate-700 pt-6">
                 <h3 className="text-lg font-semibold mb-4">{t('room.modal.quickActions')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <button className="flex flex-col items-center justify-center p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
+                  <button onClick={handleNewBookingClick} className="flex flex-col items-center justify-center p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
                     <Calendar size={24} className="mb-2 text-blue-500" />
                     <span className="text-sm">{t('room.modal.newBooking')}</span>
                   </button>
