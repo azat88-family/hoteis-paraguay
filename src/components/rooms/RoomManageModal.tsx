@@ -33,6 +33,11 @@ const RoomManageModal: React.FC<RoomManageModalProps> = ({ isOpen, onClose, room
     onClose(); // Close the modal
   };
 
+  const handleMaintenanceClick = () => {
+    navigate(`/rooms/${room.id}/maintenance`);
+    onClose(); // Close the modal
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-slate-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
@@ -163,7 +168,7 @@ const RoomManageModal: React.FC<RoomManageModalProps> = ({ isOpen, onClose, room
                     <Calendar size={24} className="mb-2 text-blue-500" />
                     <span className="text-sm">{t('room.modal.newBooking')}</span>
                   </button>
-                  <button className="flex flex-col items-center justify-center p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
+                  <button onClick={handleMaintenanceClick} className="flex flex-col items-center justify-center p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
                     <Settings size={24} className="mb-2 text-yellow-500" />
                     <span className="text-sm">{t('room.modal.maintenance')}</span>
                   </button>

@@ -18,6 +18,7 @@ import AdminLogin from './pages/AdminLogin';
 import OwnerLogin from './pages/OwnerLogin';
 import AttendantLogin from './pages/AttendantLogin';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import RoomMaintenancePage from './pages/RoomMaintenancePage'; // Import the new page
 import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
@@ -121,6 +122,15 @@ function App() {
                 element={
                   <ProtectedRoute allowedRoles={['admin', 'owner', 'attendant']}>
                     <Rooms />
+                  </ProtectedRoute>
+                }
+              />
+              {/* Route for Room Maintenance Page */}
+              <Route
+                path="rooms/:id/maintenance"
+                element={
+                  <ProtectedRoute allowedRoles={['admin', 'owner', 'attendant']}>
+                    <RoomMaintenancePage />
                   </ProtectedRoute>
                 }
               />
