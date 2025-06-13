@@ -86,21 +86,30 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
 
   const statusInfo = getStatusInfo();
 
+  const typeKey = `rooms.types.${room.type?.toLowerCase() ?? 'unknown'}`;
+  const bedKey = `rooms.beds.${room.beds?.toLowerCase() ?? 'unknown'}`;
+  const defaultRoomType = room.type || t('common.unknownType', 'Unknown Type');
+  const defaultBedType = room.beds || t('common.unknownBeds', 'Unknown Beds');
+
+  const displayPrice = typeof room.price_per_night === 'number' && !isNaN(room.price_per_night)
+    ? room.price_per_night.toFixed(2)
+    : t('common.notAvailableShort', 'N/A');
+
   return (
     <>
       <div className="bg-slate-800 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
         <div className="p-5 border-b border-slate-700">
           <div className="flex justify-between items-start mb-3">
-            <span className="text-2xl font-bold text-white">{room.room_number}</span>
+            <span className="text-2xl font-bold text-white">{room.room_number || t('common.unknownRoom', 'Unknown Room')}</span>
             <div className={`px-3 py-1 rounded-full flex items-center ${statusInfo.bgColor} ${statusInfo.textColor} text-xs font-medium whitespace-nowrap`}>
               {statusInfo.icon}
               {statusInfo.text}
             </div>
           </div>
           <div className="mb-1">
-            <h3 className="text-lg font-semibold text-slate-100">{t(`rooms.types.${room.type.toLowerCase()}`, room.type)}</h3>
+            <h3 className="text-lg font-semibold text-slate-100">{t(typeKey, defaultRoomType)}</h3>
             <p className="text-slate-400 text-sm">
-              {t(`rooms.beds.${room.beds.toLowerCase()}`, room.beds)} · {room.capacity} {t(room.capacity > 1 ? 'rooms.guests' : 'rooms.guest', { count: room.capacity })}
+              {t(bedKey, defaultBedType)} · {room.capacity || 0} {t(room.capacity > 1 ? 'rooms.guests' : 'rooms.guest', { count: room.capacity || 0 })}
             </p>
           </div>
         </div>
@@ -108,14 +117,14 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
         <div className="p-5 flex-grow">
           {/* Guest information removed as it's not directly on the room object from the API */}
 
-          {room.features && room.features.length > 0 && (
+          {Array.isArray(room.features) && room.features.length > 0 && (
             <div className="mb-4">
               <h4 className="text-sm font-medium text-slate-300 mb-2">{t('rooms.featuresTitle', 'Features')}</h4>
               <div className="flex flex-wrap gap-2">
                 {room.features.slice(0, 4).map((feature, index) => (
                   <div key={index} title={feature} className="flex items-center bg-slate-700 px-2.5 py-1 rounded text-xs text-slate-300">
                     {getFeatureIcon(feature)}
-                    <span className="ml-1.5">{t(`rooms.features.${feature.toLowerCase().replace(/\s+/g, '')}`, feature)}</span>
+                    <span className="ml-1.5">{t(`rooms.features.${feature?.toLowerCase().replace(/\s+/g, '') ?? 'unknown'}`, feature || '')}</span>
                   </div>
                 ))}
                 {room.features.length > 4 && (
@@ -131,7 +140,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
         <div className="p-5 border-t border-slate-700">
           <div className="flex justify-between items-center">
             <span className="text-xl font-bold text-white">
-              ${room.price_per_night.toFixed(2)}
+              ${displayPrice}
               <span className="text-sm text-slate-400 font-normal"> / {t('rooms.night', 'night')}</span>
             </span>
             <div className="flex gap-2">
