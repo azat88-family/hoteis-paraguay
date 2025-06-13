@@ -1,135 +1,74 @@
-import React, { useState } from 'react';
-import { Plus, Search, Filter, UserX } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Plus, Search, UserX } from 'lucide-react'; // Removed Filter for now
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { getGuests, Guest } from '../apiService/guestService'; // Adjusted import path
 
-// Mock data for guests
-const guestsData = [
-  {
-    id: 'G001',
-    name: 'John Smith',
-    email: 'john.smith@example.com',
-    phone: '+1-555-123-4567',
-    nationality: 'USA',
-    visits: 3,
-    lastVisit: '2023-05-15',
-    status: 'Checked In',
-    roomNumber: '101'
-  },
-  {
-    id: 'G002',
-    name: 'Emma Wilson',
-    email: 'emma.wilson@example.com',
-    phone: '+1-555-765-4321',
-    nationality: 'UK',
-    visits: 1,
-    lastVisit: null,
-    status: 'Reserved',
-    roomNumber: '205'
-  },
-  {
-    id: 'G003',
-    name: 'Michael Brown',
-    email: 'michael.brown@example.com',
-    phone: '+1-555-987-6543',
-    nationality: 'Canada',
-    visits: 5,
-    lastVisit: '2023-04-22',
-    status: 'Checked In',
-    roomNumber: '304'
-  },
-  {
-    id: 'G004',
-    name: 'Olivia Johnson',
-    email: 'olivia.johnson@example.com',
-    phone: '+1-555-234-5678',
-    nationality: 'Australia',
-    visits: 2,
-    lastVisit: '2023-03-10',
-    status: 'Reserved',
-    roomNumber: '402'
-  },
-  {
-    id: 'G005',
-    name: 'William Davis',
-    email: 'william.davis@example.com',
-    phone: '+1-555-876-5432',
-    nationality: 'Germany',
-    visits: 4,
-    lastVisit: '2023-05-30',
-    status: 'Checked In',
-    roomNumber: '503'
-  },
-  {
-    id: 'G006',
-    name: 'Sophia Martinez',
-    email: 'sophia.martinez@example.com',
-    phone: '+1-555-345-6789',
-    nationality: 'Spain',
-    visits: 1,
-    lastVisit: '2023-02-18',
-    status: 'Checked Out',
-    roomNumber: null
-  },
-  {
-    id: 'G007',
-    name: 'James Taylor',
-    email: 'james.taylor@example.com',
-    phone: '+1-555-456-7890',
-    nationality: 'USA',
-    visits: 7,
-    lastVisit: '2023-05-05',
-    status: 'Checked Out',
-    roomNumber: null
-  },
-  {
-    id: 'G008',
-    name: 'Isabella Anderson',
-    email: 'isabella.anderson@example.com',
-    phone: '+1-555-567-8901',
-    nationality: 'Italy',
-    visits: 2,
-    lastVisit: '2023-04-12',
-    status: 'Checked Out',
-    roomNumber: null
-  }
-];
-
-const Guests: React.FC = () => {
+const GuestsPage: React.FC = () => {
+  const [guests, setGuests] = useState<Guest[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  // const [statusFilter, setStatusFilter] = useState('all'); // Status not directly on guest table
   const { t } = useTranslation();
 
-  // Filter guests based on search query and status filter
-  const filteredGuests = guestsData.filter(guest => {
-    // Search filter
-    const searchMatches = 
-      guest.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      guest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      guest.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      guest.phone.includes(searchQuery) ||
-      (guest.roomNumber && guest.roomNumber.includes(searchQuery));
-    
-    // Status filter
-    const statusMatches = statusFilter === 'all' || guest.status === statusFilter;
-    
-    return searchMatches && statusMatches;
+  useEffect(() => {
+    const fetchGuests = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await getGuests();
+        setGuests(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : t('common.unknownError', 'An unknown error occurred'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchGuests();
+  }, [t]); // Added t to dependency array
+
+  // Filter guests based on search query
+  const filteredGuests = guests.filter(guest => {
+    const searchString = searchQuery.toLowerCase();
+    return (
+      guest.id.toString().toLowerCase().includes(searchString) ||
+      guest.name.toLowerCase().includes(searchString) ||
+      guest.email.toLowerCase().includes(searchString) ||
+      (guest.phone && guest.phone.toLowerCase().includes(searchString))
+    );
   });
 
-  // Count guests by status
-  const guestCounts = {
-    all: guestsData.length,
-    'Checked In': guestsData.filter(guest => guest.status === 'Checked In').length,
-    'Reserved': guestsData.filter(guest => guest.status === 'Reserved').length,
-    'Checked Out': guestsData.filter(guest => guest.status === 'Checked Out').length,
-  };
+  // Guest counts - simplified as status is not on the guest table
+  // const guestCounts = {
+  //   all: guests.length,
+  // };
 
-  // Tradução dos status para exibir nos botões e badges
-  const statusLabels = {
-    'Checked In': t('guests.status.checkedIn'),
-    'Reserved': t('guests.status.reserved'),
-    'Checked Out': t('guests.status.checkedOut'),
-  };
+  // Status labels - simplified
+  // const statusLabels = {
+  //   'Checked In': t('guests.status.checkedIn'),
+  //   'Reserved': t('guests.status.reserved'),
+  //   'Checked Out': t('guests.status.checkedOut'),
+  // };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6 animate-fade-in p-4">
+        <h1 className="text-3xl font-bold text-white">{t('guests.title')}</h1>
+        <div className="text-red-400 bg-red-900 p-4 rounded-lg">
+          <p>{t('common.errorLoading', 'Error loading data')}: {error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -141,8 +80,9 @@ const Guests: React.FC = () => {
         </Link>
       </div>
 
-      <div className="flex flex-wrap gap-3 bg-slate-800 rounded-lg p-4">
-        <button 
+      {/* Simplified filter buttons as status is not directly on guest table */}
+      {/* <div className="flex flex-wrap gap-3 bg-slate-800 rounded-lg p-4">
+        <button
           onClick={() => setStatusFilter('all')}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             statusFilter === 'all' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-700'
@@ -150,57 +90,20 @@ const Guests: React.FC = () => {
         >
           {t('common.all', 'All')} ({guestCounts.all})
         </button>
-        <button 
-          onClick={() => setStatusFilter('Checked In')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            statusFilter === 'Checked In' ? 'bg-green-600 text-white' : 'text-slate-300 hover:bg-slate-700'
-          }`}
-        >
-          {statusLabels['Checked In']} ({guestCounts['Checked In']})
-        </button>
-        <button 
-          onClick={() => setStatusFilter('Reserved')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            statusFilter === 'Reserved' ? 'bg-yellow-600 text-white' : 'text-slate-300 hover:bg-slate-700'
-          }`}
-        >
-          {statusLabels['Reserved']} ({guestCounts['Reserved']})
-        </button>
-        <button 
-          onClick={() => setStatusFilter('Checked Out')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            statusFilter === 'Checked Out' ? 'bg-slate-600 text-white' : 'text-slate-300 hover:bg-slate-700'
-          }`}
-        >
-          {statusLabels['Checked Out']} ({guestCounts['Checked Out']})
-        </button>
-      </div>
+      </div> */}
 
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-grow">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
             type="text"
-            placeholder={t('common.search', 'Search by ID, name, email, phone, or room...')}
+            placeholder={t('common.search', 'Search by ID, name, email, or phone...')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5"
+            className="w-full pl-10 pr-4 py-2.5" // Assuming this class handles styling
           />
         </div>
-        
-        <div className="flex gap-4">
-          <div className="relative">
-            <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <select className="pl-10 pr-8 py-2.5 appearance-none">
-              <option>{t('common.all', 'All Countries')}</option>
-              <option>USA</option>
-              <option>UK</option>
-              <option>Canada</option>
-              <option>Australia</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
+        {/* Removed country filter for now as it's not in the Guest data */}
       </div>
 
       {filteredGuests.length === 0 ? (
@@ -210,7 +113,9 @@ const Guests: React.FC = () => {
           </div>
           <h3 className="text-xl font-medium mb-2">{t('guests.noGuestsFound', 'No Guests Found')}</h3>
           <p className="text-slate-400 text-center max-w-md">
-            {t('guests.noGuestsMatch', 'No guests match your current search criteria. Try adjusting your filters or search query.')}
+            {searchQuery
+              ? t('guests.noGuestsMatchSearch', 'No guests match your current search query.')
+              : t('guests.noGuestsYet', 'There are no guests in the system yet. Try adding a new one!')}
           </p>
         </div>
       ) : (
@@ -219,13 +124,11 @@ const Guests: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-slate-700 text-left">
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.id')}</th>
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.name')}</th>
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.contact')}</th>
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.nationality')}</th>
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.visits')}</th>
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.status')}</th>
-                  <th className="p-4 font-medium text-slate-300">{t('guests.list.room')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.id', 'ID')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.name', 'Name')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.contact', 'Contact')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.phone', 'Phone')}</th>
+                  <th className="p-4 font-medium text-slate-300">{t('guests.list.createdAt', 'Created At')}</th>
                   <th className="p-4 font-medium text-slate-300">{t('common.actions', 'Actions')}</th>
                 </tr>
               </thead>
@@ -242,51 +145,18 @@ const Guests: React.FC = () => {
                       </Link>
                     </td>
                     <td className="p-4">
-                      <div className="flex flex-col">
-                        <span className="text-blue-400 hover:underline">{guest.email}</span>
-                        <span className="text-slate-400 text-sm">{guest.phone}</span>
-                      </div>
+                       <span className="text-blue-400 hover:underline">{guest.email}</span>
                     </td>
-                    <td className="p-4">{guest.nationality}</td>
-                    <td className="p-4">
-                      <div className="flex flex-col">
-                        <span>
-                          {guest.visits} {guest.visits === 1 ? t('guests.list.visit', 'visit') : t('guests.list.visits')}
-                        </span>
-                        {guest.lastVisit && (
-                          <span className="text-slate-400 text-sm">
-                            {t('guests.lastVisit', 'Last')}: {guest.lastVisit}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        guest.status === 'Checked In' 
-                          ? 'bg-green-500 bg-opacity-10 text-green-500' 
-                          : guest.status === 'Reserved' 
-                          ? 'bg-yellow-500 bg-opacity-10 text-yellow-500' 
-                          : 'bg-slate-500 bg-opacity-10 text-slate-400'
-                      }`}>
-                        {statusLabels[guest.status as keyof typeof statusLabels] || guest.status}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      {guest.roomNumber ? (
-                        <span className="bg-blue-500 bg-opacity-10 text-blue-500 px-2 py-1 rounded-full text-xs font-medium">
-                          {guest.roomNumber}
-                        </span>
-                      ) : (
-                        <span className="text-slate-400">—</span>
-                      )}
-                    </td>
+                    <td className="p-4">{guest.phone || 'N/A'}</td>
+                    <td className="p-4">{new Date(guest.created_at).toLocaleDateString()}</td>
                     <td className="p-4">
                       <Link 
-                        to={`/guests/${guest.id}`}
+                        to={`/guests/${guest.id}`} // Individual guest view page not yet implemented
                         className="text-sm bg-slate-700 hover:bg-slate-600 text-white px-3 py-1 rounded-md transition-colors"
                       >
                         {t('common.view', 'View')}
                       </Link>
+                      {/* Add Edit/Delete buttons later if needed */}
                     </td>
                   </tr>
                 ))}
@@ -299,4 +169,4 @@ const Guests: React.FC = () => {
   );
 };
 
-export default Guests;
+export default GuestsPage;

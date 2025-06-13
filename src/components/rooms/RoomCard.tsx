@@ -1,29 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Coffee, Wifi, Tv, Wind, CheckSquare, XCircle, Clock, PenTool as Tool, AlertCircle } from 'lucide-react';
+import { Calendar, Coffee, Wifi, Tv, Wind, CheckSquare, XCircle, Clock, User, Settings, AlertCircle, Edit3, BedDouble, Users } from 'lucide-react';
 import RoomManageModal from './RoomManageModal';
+import type { Room } from '../../apiService/roomService';
+import { useAuth } from '../../contexts/AuthContext'; // Import useAuth
 
-interface RoomProps {
-  room: {
-    id: number;
-    type: string;
-    beds: string;
-    capacity: number;
-    price: number;
-    status: string;
-    guest: string | null;
-    guestPhoto?: string | null;
-    checkIn: string | null;
-    checkOut: string | null;
-    features: string[];
-  };
+interface RoomCardProps {
+  room: Room;
 }
 
-const RoomCard: React.FC<RoomProps> = ({ room }) => {
+const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
+  const { user } = useAuth(); // Get user from AuthContext
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const canManageRoom = user?.role && ['admin', 'owner', 'attendant'].includes(user.role);
 
   // Function to determine status colors and translated text
   const getStatusInfo = () => {
@@ -65,129 +58,115 @@ const RoomCard: React.FC<RoomProps> = ({ room }) => {
           color: 'bg-gray-500',
           textColor: 'text-gray-500',
           bgColor: 'bg-gray-500 bg-opacity-10',
-          icon: <Tool size={16} className="mr-1.5" />,
+          icon: <Settings size={16} className="mr-1.5" />, // Changed icon
           text: t('rooms.status.maintenance')
         };
       default:
         return {
-          color: 'bg-blue-500',
+          color: 'bg-slate-500', // Default to a neutral color
           textColor: 'text-blue-500',
-          bgColor: 'bg-blue-500 bg-opacity-10',
+          bgColor: 'bg-slate-500 bg-opacity-10',
           icon: <AlertCircle size={16} className="mr-1.5" />,
-          text: t('rooms.status.unknown')
+          text: t('rooms.status.unknown', room.status) // Pass actual status if unknown
         };
     }
   };
 
   // Get feature icon
   const getFeatureIcon = (feature: string) => {
-    switch (feature.toLowerCase()) {
-      case 'wi-fi':
-        return <Wifi size={14} />;
-      case 'breakfast':
-        return <Coffee size={14} />;
-      case 'tv':
-        return <Tv size={14} />;
-      case 'ac':
-        return <Wind size={14} />;
-      default:
-        return <CheckSquare size={14} />;
-    }
+    const lowerFeature = feature.toLowerCase();
+    if (lowerFeature.includes('wi-fi') || lowerFeature.includes('wifi')) return <Wifi size={14} />;
+    if (lowerFeature.includes('breakfast')) return <Coffee size={14} />;
+    if (lowerFeature.includes('tv')) return <Tv size={14} />;
+    if (lowerFeature.includes('ac') || lowerFeature.includes('air conditioning')) return <Wind size={14} />;
+    if (lowerFeature.includes('bed')) return <BedDouble size={14} />;
+    if (lowerFeature.includes('user') || lowerFeature.includes('guest')) return <Users size={14} />;
+    return <CheckSquare size={14} />;
   };
 
   const statusInfo = getStatusInfo();
 
   return (
     <>
-      <div className="bg-slate-800 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <div className="p-4 border-b border-slate-700">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-2xl font-bold text-white">{room.id}</span>
-            <div className={`px-3 py-1 rounded-full flex items-center ${statusInfo.bgColor} ${statusInfo.textColor} text-xs font-medium`}>
+      <div className="bg-slate-800 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+        <div className="p-5 border-b border-slate-700">
+          <div className="flex justify-between items-start mb-3">
+            <span className="text-2xl font-bold text-white">{room.room_number}</span>
+            <div className={`px-3 py-1 rounded-full flex items-center ${statusInfo.bgColor} ${statusInfo.textColor} text-xs font-medium whitespace-nowrap`}>
               {statusInfo.icon}
               {statusInfo.text}
             </div>
           </div>
-          <div className="mb-2">
-            <h3 className="text-lg font-semibold">{t(`rooms.types.${room.type.toLowerCase()}`)} {t('rooms.title', 'Room')}</h3>
-            <p className="text-slate-400">{room.beds} {t('rooms.bed', 'Bed')} · {room.capacity} {t('rooms.guests', 'Guests')}</p>
+          <div className="mb-1">
+            <h3 className="text-lg font-semibold text-slate-100">{t(`rooms.types.${room.type.toLowerCase()}`, room.type)}</h3>
+            <p className="text-slate-400 text-sm">
+              {t(`rooms.beds.${room.beds.toLowerCase()}`, room.beds)} · {room.capacity} {t(room.capacity > 1 ? 'rooms.guests' : 'rooms.guest', { count: room.capacity })}
+            </p>
           </div>
         </div>
         
-        <div className="p-4">
-          {room.guest && (
+        <div className="p-5 flex-grow">
+          {/* Guest information removed as it's not directly on the room object from the API */}
+
+          {room.features && room.features.length > 0 && (
             <div className="mb-4">
-              <div className="flex items-center gap-2">
-                {/* Foto do hóspede */}
-                {room.guestPhoto ? (
-                  <img
-                    src={room.guestPhoto}
-                    alt={room.guest || 'Guest'}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-lg font-bold text-white">
-                    {room.guest ? room.guest[0] : ''}
+              <h4 className="text-sm font-medium text-slate-300 mb-2">{t('rooms.featuresTitle', 'Features')}</h4>
+              <div className="flex flex-wrap gap-2">
+                {room.features.slice(0, 4).map((feature, index) => (
+                  <div key={index} title={feature} className="flex items-center bg-slate-700 px-2.5 py-1 rounded text-xs text-slate-300">
+                    {getFeatureIcon(feature)}
+                    <span className="ml-1.5">{t(`rooms.features.${feature.toLowerCase().replace(/\s+/g, '')}`, feature)}</span>
+                  </div>
+                ))}
+                {room.features.length > 4 && (
+                  <div className="flex items-center bg-slate-700 px-2.5 py-1 rounded text-xs text-slate-300">
+                    +{room.features.length - 4} {t('rooms.more', 'more')}
                   </div>
                 )}
-                <div>
-                  <span className="text-sm font-medium">{room.guest}</span>
-                  {room.checkIn && room.checkOut && (
-                    <div className="flex items-center mt-1">
-                      <Calendar size={16} className="text-slate-400 mr-2" />
-                      <span className="text-sm text-slate-400">
-                        {room.checkIn} - {room.checkOut}
-                      </span>
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
           )}
-          
-          <div className="flex flex-wrap gap-2 mb-4">
-            {room.features.slice(0, 4).map((feature, index) => (
-              <div key={index} className="flex items-center bg-slate-700 px-2 py-1 rounded text-xs">
-                {getFeatureIcon(feature)}
-                <span className="ml-1">{t(`rooms.features.${feature.toLowerCase()}`, feature)}</span>
-              </div>
-            ))}
-            {room.features.length > 4 && (
-              <div className="flex items-center bg-slate-700 px-2 py-1 rounded text-xs">
-                +{room.features.length - 4} {t('rooms.more', 'more')}
-              </div>
-            )}
-          </div>
-          
+        </div>
+
+        <div className="p-5 border-t border-slate-700">
           <div className="flex justify-between items-center">
-            <span className="text-lg font-bold">${room.price} <span className="text-sm text-slate-400 font-normal">/ {t('rooms.night', 'night')}</span></span>
+            <span className="text-xl font-bold text-white">
+              ${room.price_per_night.toFixed(2)}
+              <span className="text-sm text-slate-400 font-normal"> / {t('rooms.night', 'night')}</span>
+            </span>
             <div className="flex gap-2">
               <button
-                className="btn-primary py-1.5 px-3 text-sm"
-                onClick={() => {
-                  if (room.guest) {
-                    navigate(`/guests/${encodeURIComponent(room.guest)}`);
-                  }
-                }}
+                title={t('rooms.viewDetailsTitle', 'View room details')}
+                className="btn-secondary py-2 px-4 text-sm flex items-center" // Changed to secondary, primary for manage
+                onClick={() => navigate(`/rooms/${room.id}`)} // Navigate to a future room details page
               >
-                {t('rooms.viewDetails', 'View Details')}
+                <Edit3 size={14} className="mr-1.5" />
+                {t('common.details', 'Details')}
               </button>
-              <button 
-                className="btn-secondary py-1.5 px-3 text-sm"
-                onClick={() => setIsManageModalOpen(true)}
-              >
-                {t('rooms.manage', 'Manage')}
-              </button>
+              {canManageRoom && (
+                <button
+                  title={t('rooms.manageTitle', 'Manage room status or maintenance')}
+                  className="btn-primary py-2 px-4 text-sm flex items-center"
+                  onClick={() => setIsManageModalOpen(true)}
+                >
+                  <Settings size={14} className="mr-1.5" />
+                  {t('rooms.manage', 'Manage')}
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <RoomManageModal
-        isOpen={isManageModalOpen}
-        onClose={() => setIsManageModalOpen(false)}
-        room={room}
-      />
+      {isManageModalOpen && (
+        <RoomManageModal
+          isOpen={isManageModalOpen}
+          onClose={() => setIsManageModalOpen(false)}
+          room={room}
+          // onRoomUpdate might be needed here if status can be changed from modal
+          // Pass relevant props for role-based actions inside modal if needed
+        />
+      )}
     </>
   );
 };

@@ -15,5 +15,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/guests', require('./routes/guestRoutes')); // Rotas de hóspedes
 app.use('/api/rooms', require('./routes/roomRoutes')); // Rotas de quartos
+app.use('/api/reservations', require('./routes/reservationRoutes')); // Rotas de reservas
+app.use('/api/maintenance', require('./routes/maintenanceRoutes')); // Rotas de manutenção
 
 module.exports = app;

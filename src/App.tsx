@@ -33,12 +33,14 @@ function App() {
             <Route path="/login/owner" element={<OwnerLogin />} />
             <Route path="/login/attendant" element={<AttendantLogin />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} /> {/* Simple unauthorized page */}
+
 
             {/* Todas as rotas abaixo estarão protegidas pela autenticação (e algumas também por role) */}
             <Route
               path="/"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute> {/* Ensures user is authenticated for any route within Layout */}
                   <Layout />
                 </ProtectedRoute>
               }
@@ -47,7 +49,7 @@ function App() {
               <Route index element={<Navigate to="/portal" replace />} />
 
               {/* Página Portal, visível para qualquer usuário autenticado */}
-              <Route path="portal" element={<PortalPage />} />
+              <Route path="portal" element={<PortalPage />} /> {/* No specific role needed, just auth */}
 
               {/* Dashboard do Admin */}
               <Route
@@ -63,7 +65,7 @@ function App() {
               <Route
                 path="owner-dashboard"
                 element={
-                  <ProtectedRoute allowedRoles={['owner']}>
+                  <ProtectedRoute allowedRoles={['owner', 'admin']}> {/* Admin can also see owner dashboard */}
                     <OwnerDashboard />
                   </ProtectedRoute>
                 }
@@ -73,28 +75,27 @@ function App() {
               <Route
                 path="attendant-dashboard"
                 element={
-                  <ProtectedRoute allowedRoles={['attendant']}>
+                  <ProtectedRoute allowedRoles={['attendant', 'admin']}> {/* Admin can also see attendant dashboard */}
                     <AttendantDashboard />
                   </ProtectedRoute>
                 }
               />
 
-              {/* “Panel” propriamente dito (rota /dashboard), só Owner pode acessar */}
+              {/* “Panel” propriamente dito (rota /dashboard), Admin ou Owner podem acessar */}
               <Route
                 path="dashboard"
                 element={
-                  <ProtectedRoute allowedRoles={['owner']}>
+                  <ProtectedRoute allowedRoles={['admin', 'owner']}>
                     <Dashboard />
                   </ProtectedRoute>
                 }
               />
 
-              {/* Rotas de Hóspedes — aqui você pode definir allowedRoles conforme necessidade.
-                  Exemplo: se quiser que apenas admin ou owner vejam guests: */}
+              {/* Rotas de Hóspedes */}
               <Route
                 path="guests"
                 element={
-                  <ProtectedRoute allowedRoles={['admin', 'owner']}>
+                  <ProtectedRoute allowedRoles={['admin', 'owner', 'attendant']}>
                     <Guests />
                   </ProtectedRoute>
                 }
@@ -102,7 +103,7 @@ function App() {
               <Route
                 path="guests/new"
                 element={
-                  <ProtectedRoute allowedRoles={['admin', 'owner']}>
+                  <ProtectedRoute allowedRoles={['admin', 'owner', 'attendant']}>
                     <NewGuest />
                   </ProtectedRoute>
                 }
@@ -110,13 +111,13 @@ function App() {
               <Route
                 path="guests/:id"
                 element={
-                  <ProtectedRoute allowedRoles={['admin', 'owner']}>
+                  <ProtectedRoute allowedRoles={['admin', 'owner', 'attendant']}>
                     <GuestDetails />
                   </ProtectedRoute>
                 }
               />
 
-              {/* Rotas de Quartos e Reservas — Exemplo: disponibilizar para todos os papéis */}
+              {/* Rotas de Quartos */}
               <Route
                 path="rooms"
                 element={
@@ -125,7 +126,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* Route for Room Maintenance Page */}
               <Route
                 path="rooms/:id/maintenance"
                 element={
@@ -134,6 +134,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Rotas de Reservas */}
               <Route
                 path="reservations"
                 element={
@@ -142,13 +144,25 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+               {/* Route for creating a new reservation, BookingModal might be triggered from here or other places */}
+              <Route
+                path="reservations/new"
+                element={
+                  <ProtectedRoute allowedRoles={['admin', 'owner', 'attendant']}>
+                    {/* This could be a page that opens BookingModal or a dedicated page */}
+                    {/* For now, let's assume Reservations.tsx handles modal opening or it's a page */}
+                    <Reservations /> {/* Or a specific NewReservationPage that uses BookingModal */}
+                  </ProtectedRoute>
+                }
+              />
+
 
               {/* Rota de “owner-dashboard/financials” (caso ainda queira usar) */}
               <Route
                 path="owner-dashboard/financials"
                 element={
-                  <ProtectedRoute allowedRoles={['owner']}>
-                    <OwnerDashboard />
+                  <ProtectedRoute allowedRoles={['owner', 'admin']}>
+                    <OwnerDashboard /> {/* Assuming this is a sub-section of owner's view */}
                   </ProtectedRoute>
                 }
               />
@@ -159,5 +173,14 @@ function App() {
     </ThemeProvider>
   );
 }
+
+// Simple Unauthorized Page Component
+const UnauthorizedPage: React.FC = () => (
+  <div className="flex flex-col items-center justify-center h-screen bg-slate-900 text-white">
+    <h1 className="text-4xl font-bold mb-4">403 - Unauthorized</h1>
+    <p className="mb-8">You do not have permission to access this page.</p>
+    <Link to="/portal" className="text-blue-400 hover:underline">Go to Portal</Link>
+  </div>
+);
 
 export default App;

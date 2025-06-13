@@ -44,8 +44,8 @@ const Sidebar: React.FC = () => {
           <span>{t('dashboard.title', 'Painel')}</span>
         </NavLink>
 
-        {/* Admin e Owner: Gerenciar Hóspedes */}
-        {(user?.role === 'admin' || user?.role === 'owner') && (
+        {/* Admin, Owner e Attendant: Gerenciar Hóspedes */}
+        {(user?.role === 'admin' || user?.role === 'owner' || user?.role === 'attendant') && (
           <NavLink
             to="/guests"
             className={({ isActive }) =>
@@ -88,8 +88,8 @@ const Sidebar: React.FC = () => {
           </>
         )}
 
-        {/* Panel: mostra apenas para owner e sempre vai para /dashboard */}
-        {user?.role === 'owner' && (
+        {/* Panel: mostra para admin e owner, e sempre vai para /dashboard */}
+        {(user?.role === 'admin' || user?.role === 'owner') && (
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>

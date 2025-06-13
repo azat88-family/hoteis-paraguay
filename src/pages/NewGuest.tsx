@@ -2,19 +2,78 @@ import React, { useState } from 'react';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { createGuest } from '../apiService/guestService'; // Adjusted import path
 
-const NewGuest: React.FC = () => {
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  // Add other fields as necessary, matching your form
+  birthDate?: string;
+  nationality?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+  idType?: string;
+  idNumber?: string;
+  idExpiry?: string;
+  notes?: string;
+}
+
+const NewGuestPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Simulated form submission
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would actually submit the data to your backend
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
 
-    // Simulate successful submission
-    navigate('/guests');
+    const guestData = {
+      name: `${formData.firstName} ${formData.lastName}`.trim(),
+      email: formData.email,
+      phone: formData.phone,
+    };
+
+    if (!guestData.name || !guestData.email) {
+      setError(t('guests.errors.nameEmailRequired', 'Full name and email are required.'));
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await createGuest(guestData);
+      setSuccessMessage(t('guests.success.guestCreated', 'Guest created successfully! Redirecting...'));
+      // Clear form or reset state if needed
+      setFormData({ firstName: '', lastName: '', email: '', phone: '' });
+      setTimeout(() => {
+        navigate('/guests');
+      }, 2000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('guests.errors.unknownError', 'An unknown error occurred'));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Handle file selection for guest photo
@@ -133,9 +192,12 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="firstName"
+                  name="firstName"
                   type="text"
                   required
                   className="w-full"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -145,9 +207,12 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="lastName"
+                  name="lastName"
                   type="text"
                   required
                   className="w-full"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -157,9 +222,12 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   required
                   className="w-full"
+                  value={formData.email}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -169,9 +237,12 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="phone"
+                  name="phone"
                   type="tel"
-                  required
+                  required // Making phone required as per original form, though schema allows null
                   className="w-full"
+                  value={formData.phone}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -181,19 +252,25 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="birthDate"
+                  name="birthDate"
                   type="date"
                   className="w-full"
+                  value={formData.birthDate}
+                  onChange={handleInputChange}
                 />
               </div>
 
               <div>
                 <label htmlFor="nationality" className="block text-sm font-medium text-slate-300 mb-2">
-                  {t('guests.nationality', 'Nationality')}*
+                  {t('guests.nationality', 'Nationality')}
                 </label>
                 <select
                   id="nationality"
-                  required
+                  name="nationality"
+                  // not required as it's not in the core guest data for backend
                   className="w-full"
+                  value={formData.nationality}
+                  onChange={handleInputChange}
                 >
                   <option value="">{t('guests.selectCountry', 'Select country')}</option>
                   <option value="US">{t('guests.country.us', 'United States')}</option>
@@ -220,8 +297,11 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="address"
+                  name="address"
                   type="text"
                   className="w-full"
+                  value={formData.address}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -231,8 +311,11 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="city"
+                  name="city"
                   type="text"
                   className="w-full"
+                  value={formData.city}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -242,8 +325,11 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="state"
+                  name="state"
                   type="text"
                   className="w-full"
+                  value={formData.state}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -253,8 +339,11 @@ const NewGuest: React.FC = () => {
                 </label>
                 <input
                   id="postalCode"
+                  name="postalCode"
                   type="text"
                   className="w-full"
+                  value={formData.postalCode}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -264,7 +353,10 @@ const NewGuest: React.FC = () => {
                 </label>
                 <select
                   id="country"
+                  name="country"
                   className="w-full"
+                  value={formData.country}
+                  onChange={handleInputChange}
                 >
                   <option value="">{t('guests.selectCountry', 'Select country')}</option>
                   <option value="US">{t('guests.country.us', 'United States')}</option>
@@ -288,7 +380,10 @@ const NewGuest: React.FC = () => {
                 </label>
                 <select
                   id="idType"
+                  name="idType"
                   className="w-full"
+                  value={formData.idType}
+                  onChange={handleInputChange}
                 >
                   <option value="">{t('guests.selectIdType', 'Select ID type')}</option>
                   <option value="passport">{t('guests.passport', "Passport")}</option>
@@ -305,8 +400,11 @@ const NewGuest: React.FC = () => {
                   </label>
                   <input
                     id="idNumber"
+                    name="idNumber"
                     type="text"
                     className="w-full"
+                    value={formData.idNumber}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -316,8 +414,11 @@ const NewGuest: React.FC = () => {
                   </label>
                   <input
                     id="idExpiry"
+                    name="idExpiry"
                     type="date"
                     className="w-full"
+                    value={formData.idExpiry}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -328,20 +429,34 @@ const NewGuest: React.FC = () => {
                 </label>
                 <textarea
                   id="notes"
+                  name="notes"
                   rows={4}
                   placeholder={t('guests.notesPlaceholder', 'Enter any special requests or notes about the guest')}
                   className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  value={formData.notes}
+                  onChange={handleInputChange}
                 ></textarea>
               </div>
             </div>
           </div>
 
+          {error && (
+            <div className="lg:col-span-3 p-4 bg-red-900 text-red-300 rounded-md">
+              {error}
+            </div>
+          )}
+          {successMessage && (
+            <div className="lg:col-span-3 p-4 bg-green-900 text-green-300 rounded-md">
+              {successMessage}
+            </div>
+          )}
+
           <div className="flex justify-end gap-4">
             <Link to="/guests" className="btn-secondary py-2 px-6">
               {t('common.cancel', 'Cancel')}
             </Link>
-            <button type="submit" className="btn-primary py-2 px-6">
-              {t('guests.saveGuest', 'Save Guest')}
+            <button type="submit" className="btn-primary py-2 px-6" disabled={isLoading}>
+              {isLoading ? t('common.saving', 'Saving...') : t('guests.saveGuest', 'Save Guest')}
             </button>
           </div>
         </div>
@@ -350,4 +465,4 @@ const NewGuest: React.FC = () => {
   );
 };
 
-export default NewGuest;
+export default NewGuestPage;
