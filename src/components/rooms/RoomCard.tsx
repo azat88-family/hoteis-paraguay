@@ -86,36 +86,75 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
 
   const statusInfo = getStatusInfo();
 
+  const typeKey = `rooms.types.${room.type?.toLowerCase() ?? 'unknown'}`;
+  const bedKey = `rooms.beds.${room.beds?.toLowerCase() ?? 'unknown'}`;
+  const defaultRoomType = room.type || t('common.unknownType', 'Unknown Type');
+  const defaultBedType = room.beds || t('common.unknownBeds', 'Unknown Beds');
+
+  const displayPrice = typeof room.price_per_night === 'number' && !isNaN(room.price_per_night)
+    ? room.price_per_night.toFixed(2)
+    : t('common.notAvailableShort', 'N/A');
+
   return (
     <>
       <div className="bg-slate-800 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
         <div className="p-5 border-b border-slate-700">
           <div className="flex justify-between items-start mb-3">
-            <span className="text-2xl font-bold text-white">{room.room_number}</span>
+            <span className="text-2xl font-bold text-white">{room.room_number || t('common.unknownRoom', 'Unknown Room')}</span>
             <div className={`px-3 py-1 rounded-full flex items-center ${statusInfo.bgColor} ${statusInfo.textColor} text-xs font-medium whitespace-nowrap`}>
               {statusInfo.icon}
               {statusInfo.text}
             </div>
           </div>
           <div className="mb-1">
-            <h3 className="text-lg font-semibold text-slate-100">{t(`rooms.types.${room.type.toLowerCase()}`, room.type)}</h3>
+            <h3 className="text-lg font-semibold text-slate-100">{t(typeKey, defaultRoomType)}</h3>
             <p className="text-slate-400 text-sm">
-              {t(`rooms.beds.${room.beds.toLowerCase()}`, room.beds)} · {room.capacity} {t(room.capacity > 1 ? 'rooms.guests' : 'rooms.guest', { count: room.capacity })}
+              {t(bedKey, defaultBedType)} · {room.capacity || 0} {t(room.capacity > 1 ? 'rooms.guests' : 'rooms.guest', { count: room.capacity || 0 })}
             </p>
           </div>
         </div>
         
         <div className="p-5 flex-grow">
-          {/* Guest information removed as it's not directly on the room object from the API */}
+          {/* Display Active Guest Information */}
+          {room.active_guest ? (
+            <div className="mb-4 pt-3 border-t border-slate-700">
+              <h4 className="text-sm font-medium text-slate-300 mb-1.5">{t('rooms.currentGuestTitle', 'Current Guest')}</h4>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-lg font-bold text-white ring-2 ring-slate-600">
+                  {room.active_guest.name ? room.active_guest.name[0].toUpperCase() : '?'}
+                </div>
+                <div>
+                  <span className="text-sm font-semibold text-slate-100 block truncate" title={room.active_guest.name}>
+                    {room.active_guest.name}
+                  </span>
+                  <p className="text-xs text-slate-400 truncate" title={room.active_guest.email}>
+                    {room.active_guest.email}
+                  </p>
+                  {/* Optional: Link to guest details
+                  <Link to={`/guests/${room.active_guest.id}`} className="text-xs text-blue-400 hover:underline mt-0.5 block">
+                    {t('common.viewDetails', 'View Details')}
+                  </Link>
+                  */}
+                </div>
+              </div>
+            </div>
+          ) : (
+            (room.status === 'occupied' || room.status === 'reserved') && (
+              <div className="mb-4 pt-3 border-t border-slate-700">
+                 <h4 className="text-sm font-medium text-slate-300 mb-1.5">{t('rooms.currentGuestTitle', 'Current Guest')}</h4>
+                <p className="text-xs text-slate-500">{t('rooms.guestInfoNotAvailable', 'Guest information not available.')}</p>
+              </div>
+            )
+          )}
 
-          {room.features && room.features.length > 0 && (
-            <div className="mb-4">
+          {Array.isArray(room.features) && room.features.length > 0 && (
+            <div className="mt-4 mb-4 pt-4 border-t border-slate-700"> {/* Added mt-4 and border-t if guest info was shown */}
               <h4 className="text-sm font-medium text-slate-300 mb-2">{t('rooms.featuresTitle', 'Features')}</h4>
               <div className="flex flex-wrap gap-2">
                 {room.features.slice(0, 4).map((feature, index) => (
                   <div key={index} title={feature} className="flex items-center bg-slate-700 px-2.5 py-1 rounded text-xs text-slate-300">
                     {getFeatureIcon(feature)}
-                    <span className="ml-1.5">{t(`rooms.features.${feature.toLowerCase().replace(/\s+/g, '')}`, feature)}</span>
+                    <span className="ml-1.5">{t(`rooms.features.${feature?.toLowerCase().replace(/\s+/g, '') ?? 'unknown'}`, feature || '')}</span>
                   </div>
                 ))}
                 {room.features.length > 4 && (
@@ -128,10 +167,10 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           )}
         </div>
 
-        <div className="p-5 border-t border-slate-700">
+        <div className="p-5 border-t border-slate-700 mt-auto"> {/* Added mt-auto to push to bottom if content is short */}
           <div className="flex justify-between items-center">
             <span className="text-xl font-bold text-white">
-              ${room.price_per_night.toFixed(2)}
+              ${displayPrice}
               <span className="text-sm text-slate-400 font-normal"> / {t('rooms.night', 'night')}</span>
             </span>
             <div className="flex gap-2">
