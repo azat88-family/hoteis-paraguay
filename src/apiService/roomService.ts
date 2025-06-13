@@ -1,16 +1,23 @@
 // src/apiService/roomService.ts
 const API_URL = process.env.REACT_APP_API_URL || '/api';
 
+export interface ActiveGuest {
+  id: number; // Or string, depending on your guest ID type
+  name: string;
+  email: string;
+}
+
 export interface Room {
   id: number;
   room_number: string;
   type: string; // 'Standard', 'Deluxe', 'Suite'
   beds: string; // 'Queen', 'Twin', 'King'
   capacity: number;
-  price_per_night: number; // Comes as string from backend due to DECIMAL, convert to number
+  price_per_night: number; // Already converted to number in getRooms
   status: string; // 'available', 'occupied', 'reserved', 'cleaning', 'maintenance'
   features: string[]; // {'Wi-Fi', 'TV', 'AC', 'Breakfast'}
   created_at: string;
+  active_guest?: ActiveGuest | null; // Added this field
 }
 
 export const getRooms = async (): Promise<Room[]> => {
@@ -20,8 +27,12 @@ export const getRooms = async (): Promise<Room[]> => {
     throw new Error(errorData.message || 'Failed to fetch rooms');
   }
   const rooms = await response.json();
-  // Convert price_per_night to number
-  return rooms.map((room: any) => ({ ...room, price_per_night: parseFloat(room.price_per_night) }));
+  // Backend now sends active_guest, ensure price_per_night is number
+  return rooms.map((room: any) => ({
+    ...room,
+    price_per_night: parseFloat(room.price_per_night)
+    // active_guest is already in the correct shape from the backend
+  }));
 };
 
 export const getRoomById = async (id: number): Promise<Room> => {
@@ -31,10 +42,14 @@ export const getRoomById = async (id: number): Promise<Room> => {
     throw new Error(errorData.message || `Failed to fetch room ${id}`);
   }
   const room = await response.json();
-  return { ...room, price_per_night: parseFloat(room.price_per_night) };
+  // Ensure price_per_night is number, active_guest should also be fetched if this endpoint is updated similarly
+  return {
+    ...room,
+    price_per_night: parseFloat(room.price_per_night)
+  };
 };
 
-// Add types for room creation if they differ from Room interface (e.g. omitting id, created_at)
+// Add types for room creation if they differ from Room interface (e.g. omitting id, created_at, active_guest)
 export interface CreateRoomData {
   room_number: string;
   type: string;
@@ -56,7 +71,11 @@ export const createRoom = async (roomData: CreateRoomData): Promise<Room> => {
     throw new Error(errorData.message || 'Failed to create room');
   }
   const room = await response.json();
-  return { ...room, price_per_night: parseFloat(room.price_per_night) };
+    // Ensure price_per_night is number
+  return {
+    ...room,
+    price_per_night: parseFloat(room.price_per_night)
+  };
 };
 
 export interface UpdateRoomData {
@@ -80,7 +99,11 @@ export const updateRoom = async (id: number, roomData: UpdateRoomData): Promise<
     throw new Error(errorData.message || `Failed to update room ${id}`);
   }
   const room = await response.json();
-  return { ...room, price_per_night: parseFloat(room.price_per_night) };
+  // Ensure price_per_night is number
+  return {
+    ...room,
+    price_per_night: parseFloat(room.price_per_night)
+  };
 };
 
 export const deleteRoom = async (id: number): Promise<void> => {

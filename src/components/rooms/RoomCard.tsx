@@ -115,10 +115,40 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
         </div>
         
         <div className="p-5 flex-grow">
-          {/* Guest information removed as it's not directly on the room object from the API */}
+          {/* Display Active Guest Information */}
+          {room.active_guest ? (
+            <div className="mb-4 pt-3 border-t border-slate-700">
+              <h4 className="text-sm font-medium text-slate-300 mb-1.5">{t('rooms.currentGuestTitle', 'Current Guest')}</h4>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-lg font-bold text-white ring-2 ring-slate-600">
+                  {room.active_guest.name ? room.active_guest.name[0].toUpperCase() : '?'}
+                </div>
+                <div>
+                  <span className="text-sm font-semibold text-slate-100 block truncate" title={room.active_guest.name}>
+                    {room.active_guest.name}
+                  </span>
+                  <p className="text-xs text-slate-400 truncate" title={room.active_guest.email}>
+                    {room.active_guest.email}
+                  </p>
+                  {/* Optional: Link to guest details
+                  <Link to={`/guests/${room.active_guest.id}`} className="text-xs text-blue-400 hover:underline mt-0.5 block">
+                    {t('common.viewDetails', 'View Details')}
+                  </Link>
+                  */}
+                </div>
+              </div>
+            </div>
+          ) : (
+            (room.status === 'occupied' || room.status === 'reserved') && (
+              <div className="mb-4 pt-3 border-t border-slate-700">
+                 <h4 className="text-sm font-medium text-slate-300 mb-1.5">{t('rooms.currentGuestTitle', 'Current Guest')}</h4>
+                <p className="text-xs text-slate-500">{t('rooms.guestInfoNotAvailable', 'Guest information not available.')}</p>
+              </div>
+            )
+          )}
 
           {Array.isArray(room.features) && room.features.length > 0 && (
-            <div className="mb-4">
+            <div className="mt-4 mb-4 pt-4 border-t border-slate-700"> {/* Added mt-4 and border-t if guest info was shown */}
               <h4 className="text-sm font-medium text-slate-300 mb-2">{t('rooms.featuresTitle', 'Features')}</h4>
               <div className="flex flex-wrap gap-2">
                 {room.features.slice(0, 4).map((feature, index) => (
@@ -137,7 +167,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           )}
         </div>
 
-        <div className="p-5 border-t border-slate-700">
+        <div className="p-5 border-t border-slate-700 mt-auto"> {/* Added mt-auto to push to bottom if content is short */}
           <div className="flex justify-between items-center">
             <span className="text-xl font-bold text-white">
               ${displayPrice}

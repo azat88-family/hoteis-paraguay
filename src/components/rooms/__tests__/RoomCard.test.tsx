@@ -59,7 +59,25 @@ const mockBaseRoom: Room = {
   status: 'available',
   features: ['Wi-Fi', 'TV'],
   created_at: new Date().toISOString(),
+  // active_guest is implicitly undefined here, or can be set to null
 };
+
+const mockRoomWithActiveGuest: Room = {
+  ...mockBaseRoom,
+  id: 2, // Ensure different ID for clarity if needed
+  room_number: '102',
+  status: 'occupied',
+  active_guest: { id: 1, name: 'Jane Doe', email: 'jane@example.com' }
+};
+
+const mockOccupiedRoomMissingGuestData: Room = {
+  ...mockBaseRoom,
+  id: 3,
+  room_number: '103',
+  status: 'occupied',
+  active_guest: null
+};
+
 
 describe('RoomCard', () => {
   beforeEach(() => {
@@ -136,6 +154,39 @@ describe('RoomCard', () => {
         // It should try to translate rooms.features.unknown or render empty string for the null feature
         // Depending on mockT, it might render 'rooms.features.unknown' or ''
         // For this test, ensuring it doesn't crash and valid features are there is key.
+    });
+  });
+
+  describe('Active Guest Display', () => {
+    it('should display active guest information if present', () => {
+      renderWithAuth(mockDefaultUser, <RoomCard room={mockRoomWithActiveGuest} />);
+
+      expect(screen.getByText(mockT('rooms.currentGuestTitle', 'Current Guest'))).toBeInTheDocument();
+      expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+      expect(screen.getByText('jane@example.com')).toBeInTheDocument();
+      // Check for avatar initial 'J'
+      expect(screen.getByText('J')).toBeInTheDocument();
+    });
+
+    it('should not display active guest section if active_guest is null and room is available', () => {
+      const availableRoomNoGuest: Room = { ...mockBaseRoom, status: 'available', active_guest: null };
+      renderWithAuth(mockDefaultUser, <RoomCard room={availableRoomNoGuest} />);
+
+      expect(screen.queryByText(mockT('rooms.currentGuestTitle', 'Current Guest'))).not.toBeInTheDocument();
+      expect(screen.queryByText('Jane Doe')).not.toBeInTheDocument();
+    });
+
+    it('should display fallback message if room is occupied but active_guest data is null', () => {
+      renderWithAuth(mockDefaultUser, <RoomCard room={mockOccupiedRoomMissingGuestData} />);
+
+      expect(screen.getByText(mockT('rooms.currentGuestTitle', 'Current Guest'))).toBeInTheDocument();
+      expect(screen.getByText(mockT('rooms.guestInfoNotAvailable', 'Guest information not available.'))).toBeInTheDocument();
+    });
+
+    it('should not display active guest section if active_guest is undefined and room is available', () => {
+        const roomWithoutGuestField: Room = { ...mockBaseRoom, status: 'available', active_guest: undefined };
+        renderWithAuth(mockDefaultUser, <RoomCard room={roomWithoutGuestField} />);
+        expect(screen.queryByText(mockT('rooms.currentGuestTitle', 'Current Guest'))).not.toBeInTheDocument();
     });
   });
 });
